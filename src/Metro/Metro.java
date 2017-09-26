@@ -1,11 +1,8 @@
 package Metro;
 
-import Graph.Edge;
-import Graph.GraphImpl;
-import Graph.Multigraph;
-import Graph.Node;
+import Graph.DefaultGraph;
 
-public class Metro extends GraphImpl<Station> {
+public class Metro extends DefaultGraph<Station, Track> {
 
     @Override
     public Station getRoute(Station startNode, Station endNode) {

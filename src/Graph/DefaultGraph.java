@@ -2,10 +2,10 @@ package Graph;
 
 import java.util.HashMap;
 
-public abstract class GraphImpl<N extends Node> implements Multigraph<N, EdgeImpl> {
+public abstract class DefaultGraph<N extends Node, E extends Edge> implements Multigraph<N, E> {
 
     private HashMap<Integer, N> nodes = new HashMap<>();
-    private HashMap<Integer, EdgeImpl> edges = new HashMap<>();
+    private HashMap<Integer, E> edges = new HashMap<>();
 
     @Override
     public boolean addNode(N node) {
@@ -26,7 +26,7 @@ public abstract class GraphImpl<N extends Node> implements Multigraph<N, EdgeImp
     }
 
     @Override
-    public boolean addEdge(EdgeImpl edge) {
+    public boolean addEdge(E edge) {
         if(edges.get(edge.getId()) == null){
             edges.put(edge.getId(), edge);
             edge.getNode1().addEdge(edge);
@@ -37,7 +37,7 @@ public abstract class GraphImpl<N extends Node> implements Multigraph<N, EdgeImp
     }
 
     @Override
-    public boolean removeEdge(EdgeImpl edge) {
+    public boolean removeEdge(E edge) {
         if(edges.get(edge.getId()) != null){
             edge.getNode1().removeEdge(edge);
             edge.getNode2().removeEdge(edge);
@@ -51,7 +51,7 @@ public abstract class GraphImpl<N extends Node> implements Multigraph<N, EdgeImp
         return nodes.get(id);
     }
 
-    public EdgeImpl getEdge(int id){
+    public E getEdge(int id){
         return edges.get(id);
     }
 }
