@@ -2,10 +2,20 @@ package Graph;
 
 public abstract class DefaultEdge implements Edge {
 
-    protected int id;
+    private int id;
 
-    protected Node node1;
-    protected Node node2;
+    private Node node1;
+    private Node node2;
+
+    public DefaultEdge(int id){
+        this.id = id;
+    }
+
+    public DefaultEdge(int id, Node node1, Node node2){
+        this.id = id;
+        this.node1 = node1;
+        this.node2 = node2;
+    }
 
     @Override
     public int getId() {

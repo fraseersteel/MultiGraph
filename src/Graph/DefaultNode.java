@@ -9,6 +9,10 @@ public class DefaultNode implements Node {
 
     private Set<Edge> connectedEdges = new HashSet<>();
 
+    public DefaultNode(int id){
+        this.id = id;
+    }
+
     @Override
     public int getId() {
         return id;

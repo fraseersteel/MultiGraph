@@ -13,11 +13,11 @@ public class Station extends DefaultNode {
     private String name;
 
     public Station(int id){
-        this.id = id;
+        super(id);
     }
 
     public Station(int id, String name){
-        this.id = id;
+        super(id);
         this.name = name;
     }
 

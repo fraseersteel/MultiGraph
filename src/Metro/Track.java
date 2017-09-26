@@ -8,20 +8,18 @@ public class Track extends DefaultEdge {
     private String label;
 
     public Track(int id){
-        this.id = id;
+        super(id);
         this.label = "";
     }
 
     public Track(int id, String line){
-        this.id = id;
+        super(id);
         this.label = line;
     }
 
     public Track(int id, String line, Node node1, Node node2){
-        this.id = id;
+        super(id, node1, node2);
         this.label = line;
-        this.node1 = node1;
-        this.node2 = node2;
     }
 
     @Override
