@@ -1,32 +1,30 @@
 package Metro;
 
-import Graph.DefaultNode;
-import Graph.Edge;
-import Graph.Node;
+import Graph.IEdge;
+import Graph.INode;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-public class Station extends DefaultNode {
+public class Station implements INode {
 
-    private String name;
 
-    public Station(int id){
-        super(id);
+    @Override
+    public int getId() {
+        return 0;
     }
 
-    public Station(int id, String name){
-        super(id);
-        this.name = name;
+    @Override
+    public Set<IEdge> getConnectedEdges() {
+        return null;
     }
 
-    public String getStationName(){
-        return name;
+    @Override
+    public boolean addEdge(IEdge edge) {
+        return false;
     }
 
-    public void setStationName(String name){
-        this.name = name;
+    @Override
+    public boolean removeEdge(IEdge edge) {
+        return false;
     }
-
 }

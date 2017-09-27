@@ -1,11 +1,13 @@
 package Metro;
 
 import Graph.DefaultGraph;
+import Graph.Multigraph;
 
-public class Metro extends DefaultGraph<Station, Track> {
+public class Metro {
 
-    @Override
-    public Station getRoute(Station startNode, Station endNode) {
-        return null;
+    private Multigraph Graph;
+
+    public Metro(Multigraph graph){
+        Graph = graph;
     }
 }

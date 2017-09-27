@@ -1,14 +1,17 @@
+
 package Graph;
 
-public interface Multigraph<N extends Node, E extends Edge> {
+import java.util.List;
 
-    boolean addNode(N node);
+public interface Multigraph {
 
-    boolean removeNode(N node);
+    boolean addNode(INode node);
 
-    boolean addEdge(E edge);
+    boolean removeNode(INode node);
 
-    boolean removeEdge(E edge);
+    boolean addEdge(IEdge edge);
 
-    N getRoute(N startNode, N endNode);
+    boolean removeEdge(IEdge edge);
+
+    List<IEdge> getRoute(INode node1, INode node2);
 }

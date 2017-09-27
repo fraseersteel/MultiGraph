@@ -1,34 +1,42 @@
 package Metro;
 
-import Graph.DefaultEdge;
-import Graph.Node;
+import Graph.IEdge;
+import Graph.INode;
 
-public class Track extends DefaultEdge {
+public class Track implements IEdge {
 
-    private String label;
-
-    public Track(int id){
-        super(id);
-        this.label = "";
+    @Override
+    public int getId() {
+        return 0;
     }
 
-    public Track(int id, String line){
-        super(id);
-        this.label = line;
+    @Override
+    public void setNode1(INode node) {
+
     }
 
-    public Track(int id, String line, Node node1, Node node2){
-        super(id, node1, node2);
-        this.label = line;
+    @Override
+    public INode getNode1() {
+        return null;
+    }
+
+    @Override
+    public void setNode2(INode node) {
+
+    }
+
+    @Override
+    public INode getNode2() {
+        return null;
     }
 
     @Override
     public void setLabel(String element) {
-        label = element;
+
     }
 
     @Override
     public String getLabel() {
-        return label;
+        return null;
     }
 }
