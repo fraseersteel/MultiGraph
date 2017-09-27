@@ -3,7 +3,7 @@ package Graph;
 
 import java.util.List;
 
-public interface Multigraph {
+public interface IMultigraph {
 
     boolean addNode(INode node);
 

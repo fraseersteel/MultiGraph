@@ -1,13 +1,12 @@
 package Metro;
 
-import Graph.DefaultGraph;
-import Graph.Multigraph;
+import Graph.IMultigraph;
 
 public class Metro {
 
-    private Multigraph Graph;
+    private IMultigraph Graph;
 
-    public Metro(Multigraph graph){
+    public Metro(IMultigraph graph){
         Graph = graph;
     }
 }
