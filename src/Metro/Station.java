@@ -8,23 +8,20 @@ import java.util.Set;
 public class Station implements INode {
 
 
+    private String name;
+    private int id;
+
+    public Station(int id, String name){
+        this.name = name;
+    }
     @Override
     public int getId() {
-        return 0;
+        return id;
     }
 
     @Override
-    public Set<IEdge> getConnectedEdges() {
-        return null;
+    public String toString(){
+        return name;
     }
 
-    @Override
-    public boolean addEdge(IEdge edge) {
-        return false;
-    }
-
-    @Override
-    public boolean removeEdge(IEdge edge) {
-        return false;
-    }
 }
