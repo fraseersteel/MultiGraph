@@ -16,6 +16,7 @@ public class testApp {
         System.out.println("Test Start");
         IMultigraph MG = new MultiGraph();
 
+
         Station first = new Station(1, "AAA");
         MG.addNode(first);
         System.out.println("confirm" + first.getId());
