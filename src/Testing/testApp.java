@@ -41,10 +41,6 @@ public class testApp {
         Station ninth = new Station(9, "I");
         MG.addNode(ninth);
 
-
-        List<INode> stationlist = MG.getStations();
-        System.out.println("asdasasdasdasdasdd" + stationlist.size());
-
         MG.addEdge(new Line("alp", first, third));
         MG.addEdge(new Line("ban", second, third));
         MG.addEdge(new Line("can", second, fourth));
@@ -54,22 +50,10 @@ public class testApp {
         MG.addEdge(new Line("gga", sixth, eighth));
         MG.addEdge(new Line("has", sixth, ninth));
 
-        List<IEdge> edgelist = MG.getLines();
-        System.out.println(edgelist.size());
-
 
         System.out.println(MG.getRoute(third, ninth));
 
-        for (int i = 0; i < edgelist.size(); i++) {
-            System.out.println(edgelist.get(i).getLabel());
-        }
-
         System.out.println("PART 2");
-
-        List<INode> temporariom = MG.successors(third);
-        for (int i = 0; i < temporariom.size(); i++) {
-            System.out.println(temporariom.get(i).getId());
-        }
 
         System.out.println("PART 3");
         List<INode> tempas = MG.getSeries(fourth, eighth);

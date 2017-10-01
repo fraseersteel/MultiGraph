@@ -28,23 +28,6 @@ public class MultiGraph implements IMultigraph {
             return true;
 
     }
-/*
-    @Override
-    public boolean addNode(INode node) {
-        if (!nodeList.contains(node)) {
-
-             for (int i = 0; i < nodeList.size(); i++) {
-                 if (node.getId() == nodeList.get(i).getId()) {
-                     return false;
-                }
-             }
-            nodeList.add(node);
-            return true;
-        }
-        else {
-            return false;
-        }
-    }*/
 
     @Override
     public boolean addEdge(IEdge edge) {
@@ -99,35 +82,23 @@ public class MultiGraph implements IMultigraph {
     }
 
 
-public List<INode> successors(INode node) {
-        ArrayList<INode> successorList = new ArrayList<INode>();
-        int sourceID = node.getId();
+    private List<INode> successors(INode node) {
+            ArrayList<INode> successorList = new ArrayList<INode>();
+            int sourceID = node.getId();
 
 
 
-        for (int i = 0; i < edgeList.size(); i++) {
-             if (edgeList.get(i).getNode1().getId() == sourceID) {
+            for (int i = 0; i < edgeList.size(); i++) {
+                 if (edgeList.get(i).getNode1().getId() == sourceID) {
 
-                 successorList.add(edgeList.get(i).getNode2());
-             } else if (edgeList.get(i).getNode2().getId() == sourceID) {
-                 successorList.add(edgeList.get(i).getNode1());
-             }
-        }
-
-
-        return successorList;
-}
+                     successorList.add(edgeList.get(i).getNode2());
+                 } else if (edgeList.get(i).getNode2().getId() == sourceID) {
+                     successorList.add(edgeList.get(i).getNode1());
+                 }
+            }
 
 
-
-
-    @Override
-    public List<IEdge> getLines() {
-        return edgeList;
+            return successorList;
     }
 
-    @Override
-    public List<INode> getStations() {
-        return nodeList;
-    }
 }

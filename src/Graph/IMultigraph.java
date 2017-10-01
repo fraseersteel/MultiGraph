@@ -24,18 +24,6 @@ public interface IMultigraph {
      * index 0, will contain the first line, and consecutively move along the path. */
     List<IEdge> getRoute(INode node1, INode node2);
 
-
-
-
-
-
-
-
-
-
     /*** TODO TestingDriver, for deletion***/
-    List<IEdge> getLines();
-    List<INode> getStations();
-    List<INode> successors(INode node);
     public List<INode> getSeries(INode node1, INode node2);
 }
