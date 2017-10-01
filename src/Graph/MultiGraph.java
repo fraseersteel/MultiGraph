@@ -35,70 +35,73 @@ public class MultiGraph implements IMultigraph {
         return true;
     }
 
-    @Override
+
     public List<IEdge> getRoute(INode node1, INode node2) {
-
-        return null;
-    }
-
-
-
-
-    public List<INode> getSeries(INode node1, INode node2) {
         List<INode> visited = new ArrayList<INode>();
-        List<INode> listofstations = method(node1, node2, visited);
+        List<IEdge> currentEdgeSequence = new ArrayList<IEdge>();
+        List<IEdge> listofstations = method2(node1, node2, visited, currentEdgeSequence);
 
 
         return listofstations;
     }
 
-    private List<INode> method(INode node1, INode node2, List<INode> visited) {
-        ArrayList<INode> nodeChain= new ArrayList<INode>();
-        nodeChain.add(node1);
+    private List<IEdge> method2(INode node1, INode node2, List<INode> visited, List<IEdge> currentEdgeChain) {
+        ArrayList<IEdge> edgeChain = new ArrayList<IEdge>();
         visited.add(node1);
         if (node1.getId() == node2.getId()) {
 
-            return (nodeChain);
-        } else if (successors(node1).size() == 0) {
-            nodeChain = new ArrayList<INode>();
-            return(nodeChain);
+            return (currentEdgeChain);
+        } else if (successors2(node1).size() == 0) {
+            edgeChain = new ArrayList<IEdge>();
+            return(edgeChain);
         }
-        else if (successors(node1).size() >= 1) {
-            for (int i = 0; i < successors(node1).size(); i++) {
-                INode successiveNode =  successors(node1).get(i);
+        else if (successors2(node1).size() >= 1) {
+            for (int i = 0; i < successors2(node1).size(); i++) {
+                INode successiveNode;
 
-                List<INode> temporary = new ArrayList<INode>();
+
+
+                if (successors2(node1).get(i).getNode1().getId() == node1.getId()) {
+                    successiveNode = successors2(node1).get(i).getNode2();
+                } else {
+                    successiveNode = successors2(node1).get(i).getNode1();
+                }
+
+                List<IEdge> temporary = new ArrayList<IEdge>();
+                temporary.add(successors2(node1).get(i));
                 if (!visited.contains(successiveNode)) {
-                    temporary = method(successiveNode, node2, visited);
+                    temporary = method2(successiveNode, node2, visited,temporary);
+
+                    if (temporary.size() > 0) {
+                        currentEdgeChain.addAll(temporary);
+                        return(currentEdgeChain);
+                    }
                 }
-                if (temporary.size() > 0) {
-                    nodeChain.addAll(temporary);
-                    return(nodeChain);
-                }
+
             }
         }
-        nodeChain = new ArrayList<INode>();
-        return(nodeChain);
+        edgeChain = new ArrayList<IEdge>();
+        return(edgeChain);
     }
 
 
-    private List<INode> successors(INode node) {
-            ArrayList<INode> successorList = new ArrayList<INode>();
-            int sourceID = node.getId();
+    private List<IEdge> successors2(INode node) {
+        ArrayList<IEdge> successorList = new ArrayList<IEdge>();
+        int sourceID = node.getId();
 
 
 
-            for (int i = 0; i < edgeList.size(); i++) {
-                 if (edgeList.get(i).getNode1().getId() == sourceID) {
+        for (int i = 0; i < edgeList.size(); i++) {
+            if (edgeList.get(i).getNode1().getId() == sourceID) {
 
-                     successorList.add(edgeList.get(i).getNode2());
-                 } else if (edgeList.get(i).getNode2().getId() == sourceID) {
-                     successorList.add(edgeList.get(i).getNode1());
-                 }
+                successorList.add(edgeList.get(i));
+            } else if (edgeList.get(i).getNode2().getId() == sourceID) {
+                successorList.add(edgeList.get(i));
             }
+        }
 
 
-            return successorList;
+        return successorList;
     }
-
+    
 }

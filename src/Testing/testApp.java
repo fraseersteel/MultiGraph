@@ -51,14 +51,14 @@ public class testApp {
         MG.addEdge(new Line("has", sixth, ninth));
 
 
-        System.out.println(MG.getRoute(third, ninth));
+
 
         System.out.println("PART 2");
 
         System.out.println("PART 3");
-        List<INode> tempas = MG.getSeries(fourth, eighth);
+        List<IEdge> tempas = MG.getRoute(seventh, ninth);
         for (int i = 0; i < tempas.size(); i++) {
-            System.out.println(tempas.get(i).getId());
+            System.out.println(tempas.get(i).getLabel());
         }
 
     }
