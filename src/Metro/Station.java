@@ -15,6 +15,10 @@ public class Station implements INode {
         this.name = name;
     }
 
+    public Station(int id) {
+        this.id = id;
+        name = "";
+    }
     @Override
     public int getId() {
         return id;
@@ -23,6 +27,10 @@ public class Station implements INode {
     @Override
     public String toString() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

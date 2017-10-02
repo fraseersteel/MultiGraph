@@ -45,6 +45,28 @@ public class MultiGraph implements IMultigraph {
         return listofstations;
     }
 
+    @Override
+    public List<INode> getNodeList() {
+        ArrayList<INode> copyList = new ArrayList<>();
+        copyList.addAll(nodeList);
+        return copyList;
+    }
+
+    @Override
+    /* Returns the node object which contains the same ID as the ID specified.
+    * If no matching ID, returns null
+     */
+    public INode getNode(int ID) {
+        for (int i = 0; i < nodeList.size(); i++) {
+            if (nodeList.get(i).getId() == ID) {
+
+                return nodeList.get(i);
+            }
+        }
+
+        return null;
+    }
+
     private List<IEdge> method2(INode node1, INode node2, List<INode> visited, List<IEdge> currentEdgeChain) {
         ArrayList<IEdge> edgeChain = new ArrayList<IEdge>();
         visited.add(node1);
