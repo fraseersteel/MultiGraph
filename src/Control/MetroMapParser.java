@@ -3,6 +3,7 @@ package Control;
         import Exceptions.BadFileException;
         import Graph.IMultigraph;
         import Graph.MultiGraph;
+        import Metro.Station;
 
         import java.io.BufferedReader;
         import java.io.FileReader;
@@ -172,6 +173,11 @@ package Control;
             }
             System.out.println("Station: " + stationID + "-" + stationName);
 
+
+            Station thisStation = new Station(Integer.parseInt(stationID), stationName);
+
+            graph.addNode(thisStation);
+
             while(st.hasMoreTokens())
             {
                 lineName = st.nextToken();
@@ -191,6 +197,26 @@ package Control;
                 inboundID = st.nextToken();
                 System.out.println("Edge: " + outboundID + "-" + lineName + "-" + stationID);
                 System.out.println("Edge: " + stationID + "-" + lineName + "-" + inboundID);
+
+
+                if(!outboundID.equals("0")){
+                    if(graph.getNode(Integer.parseInt(outboundID)) == null){
+//                        Station new Station = new Station(outboundID)
+                    }
+                }
+
+
+                if(!inboundID.equals("0")){
+                    if (graph.getNode(Integer.parseInt(inboundID)) == null){
+
+                    }
+                }
+
+
+                if(graph.getNode(Integer.parseInt(outboundID)) == null){
+//                    Station newStation = new Station(inboundID)
+                }
+
             }
 
 

@@ -25,4 +25,6 @@ public interface IMultigraph {
     List<IEdge> getRoute(INode node1, INode node2);
 
 
+    INode getNode(int ID);
+
 }
