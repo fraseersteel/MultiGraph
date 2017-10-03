@@ -19,10 +19,10 @@ public class testApp {
 
         Station first = new Station(1, "AAA");
         MG.addNode(first);
-        System.out.println("confirm" + first.getId());
+        System.out.println("confirm " + first.getId());
 
         Station second = new Station(2, "B");
-        System.out.println(first.getId());
+        System.out.println("confirm " + second.getId());
         System.out.println( MG.addNode(second));
 
         
@@ -56,9 +56,9 @@ public class testApp {
         System.out.println("PART 2");
 
         System.out.println("PART 3");
-        List<IEdge> tempas = MG.getRoute(seventh, ninth);
-        for (int i = 0; i < tempas.size(); i++) {
-            System.out.println(tempas.get(i).getLabel());
+        List<IEdge> temps = MG.getRoute(seventh, ninth);
+        for (int i = 0; i < temps.size(); i++) {
+            System.out.println(temps.get(i).getLabel());
         }
 
     }
