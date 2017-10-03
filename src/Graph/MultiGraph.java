@@ -53,7 +53,7 @@ public class MultiGraph implements IMultigraph {
             if (temp.getId() == node2.getId()) {
                 break;
             }
-
+ 
             List<IEdge> successors = successors(temp);
 
             for (IEdge i : successors) {
