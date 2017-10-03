@@ -58,7 +58,7 @@ public class Controller {
                 break;
             }
 
-            consoleIO.printRoute(metro.route(startingStation, destinationStation));
+            consoleIO.printRoute(metro.route(startingStation, destinationStation), metro.getStation(startingStation).getId(), metro.getStation(destinationStation).getId());
             System.out.println();
             System.out.println("Type 'exit' at anytime to quit.");
             System.out.println("Next Route:");

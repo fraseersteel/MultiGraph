@@ -6,6 +6,7 @@ import Graph.INode;
 import Graph.MultiGraph;
 import Metro.Line;
 import Metro.Station;
+import View.ConsoleIO;
 
 import java.util.List;
 
@@ -60,6 +61,9 @@ public class testApp {
         for (int i = 0; i < temps.size(); i++) {
             System.out.println(temps.get(i).getLabel());
         }
+
+        ConsoleIO consoleIO = new ConsoleIO();
+        consoleIO.printRoute(temps, 7, 9);
 
     }
 }

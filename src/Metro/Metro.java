@@ -27,5 +27,9 @@ public class Metro {
         return graph.getRoute(startStation, destStation);
     }
 
+    public Station getStation(String stationName){
+        return stations.get(stationName);
+    }
+
 
 }
