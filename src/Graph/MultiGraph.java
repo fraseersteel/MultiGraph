@@ -40,7 +40,6 @@ public class MultiGraph implements IMultigraph {
     public List<IEdge> getRoute(INode node1, INode node2) {
 
         INode destination = node2;
-        INode source = node1;
 
         List<INode> visited = new ArrayList<>();
         Queue<INode> queue = new LinkedList<>();
@@ -78,7 +77,7 @@ public class MultiGraph implements IMultigraph {
 
         List<IEdge> edgeSequence = new ArrayList<>();
 
-        while (source.getId() != destination.getId()) {
+        while (node1.getId() != destination.getId()) {
             System.out.println(destination.getId());
 
 
@@ -120,43 +119,42 @@ public class MultiGraph implements IMultigraph {
 
 
     private List<IEdge> successors(INode node) {
-        ArrayList<IEdge> successorList = new ArrayList<IEdge>();
+        ArrayList<IEdge> successorList = new ArrayList<>();
         int sourceID = node.getId();
 
 
-        for (int i = 0; i < edgeList.size(); i++) {
-            if (edgeList.get(i).getNode1().getId() == sourceID) {
+        for (IEdge i : edgeList) {
+            if (i.getNode1().getId() == sourceID) {
 
-                successorList.add(edgeList.get(i));
-            } else if (edgeList.get(i).getNode2().getId() == sourceID) {
-                successorList.add(edgeList.get(i));
+                successorList.add(i);
+            } else if (i.getNode2().getId() == sourceID) {
+                successorList.add(i);
             }
         }
-
 
         return successorList;
     }
 
-    private class ParentNodeRecord {
+    class ParentNodeRecord {
         private INode node;
         private INode parent;
         private IEdge edge;
 
-        public ParentNodeRecord(INode node, INode parent, IEdge edge) {
+        ParentNodeRecord(INode node, INode parent, IEdge edge) {
             this.node = node;
             this.parent = parent;
             this.edge = edge;
         }
 
-        public INode getNode() {
+        INode getNode() {
             return node;
         }
 
-        public INode getParent() {
+        INode getParent() {
             return parent;
         }
 
-        public IEdge getEdge() {
+        IEdge getEdge() {
             return edge;
         }
     }
