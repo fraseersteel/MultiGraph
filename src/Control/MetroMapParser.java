@@ -190,31 +190,35 @@ package Control;
 
                 outboundID = st.nextToken();
 
+                Integer outbound = Integer.parseInt(outboundID);
+
                 if(!st.hasMoreTokens())
                 {
                     throw new BadFileException("poorly formatted adjacent stations");
                 }
 
                 inboundID = st.nextToken();
+                Integer inbound = Integer.parseInt(inboundID);
+
                 System.out.println("Edge: " + outboundID + "-" + lineName + "-" + stationID);
                 System.out.println("Edge: " + stationID + "-" + lineName + "-" + inboundID);
 
 
                 if(!outboundID.equals("0")){
-                    if(graph.getNode(Integer.parseInt(outboundID)) == null){
+                    if(graph.getNode(outbound) == null){
 //                        Station new Station = new Station(outboundID)
                     }
                 }
 
 
                 if(!inboundID.equals("0")){
-                    if (graph.getNode(Integer.parseInt(inboundID)) == null){
+                    if (graph.getNode(inbound) == null){
 
                     }
                 }
                 Line line2 = new Line("", thisStation, thisStation);
 
-                if(graph.getNode(Integer.parseInt(outboundID)) == null){
+                if(graph.getNode(outbound) == null){
 //                    Station newStation = new Station(inboundID)
                 }
 
