@@ -1,33 +1,32 @@
 package Graph;
-
+import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.HashMap;
 
 public class MultiGraph implements IMultigraph {
 
-    private List<INode> nodeList;
     private List<IEdge> edgeList;
 
+    private Set<INode> nodeSet;
+
     public MultiGraph() {
-        nodeList = new ArrayList<INode>();
-        edgeList = new ArrayList<IEdge>();
+        nodeSet = new HashSet<>();
+        edgeList = new ArrayList<>();
     }
 
 
     @Override
     public boolean addNode(INode node) {
-
-
-        for (int i = 0; i < nodeList.size(); i++) {
-            if (node.getId() == nodeList.get(i).getId()) {
+        for (INode i : nodeSet) {
+            if (i.getId() == node.getId()) {
                 return false;
             }
         }
-        nodeList.add(node);
-        return true;
 
+        return (nodeSet.add(node));
     }
 
     @Override
@@ -38,73 +37,74 @@ public class MultiGraph implements IMultigraph {
 
 
     public List<IEdge> getRoute(INode node1, INode node2) {
-        //List<INode> visited = new ArrayList<INode>();
-        //List<IEdge> currentEdgeSequence = new ArrayList<IEdge>();
-        //List<IEdge> listofstations = method2(node1, node2, visited, currentEdgeSequence);
 
-        //return listofstations;
         INode destination = node2;
-        INode source = node1;
 
-        List<INode> visited = new ArrayList<INode>();
-        Queue<INode> queue = new LinkedList<INode>();
+        List<INode> visited = new ArrayList<>();
+        LinkedList<INode> queue = new LinkedList<>();
 
-        List<parentNodeRecord> parents = new ArrayList<parentNodeRecord>();
+        HashMap<INode, ParentNodeRecord> parents = new HashMap<>();
 
         visited.add(node1);
         queue.add(node1);
         while (!queue.isEmpty()) {
-            INode temp = queue.poll();
-            if (temp.getId() == node2.getId()) {
+            INode curNodeToCheck = queue.poll();
+
+            if (curNodeToCheck.getId() == node2.getId()) {
                 break;
             }
 
-            List<IEdge> successors = successors2(temp);
+            List<IEdge> successors = successors(curNodeToCheck);
 
             for (IEdge i : successors) {
-                if (i.getNode1().getId() == temp.getId()) {
+                if (i.getNode1().getId() == curNodeToCheck.getId()) {
                     if (!visited.contains(i.getNode2())) {
                         INode child = i.getNode2();
                         queue.add(child);
-                        parents.add(new parentNodeRecord(child, i.getNode1(), i));
+
+
+                        if (parents.get(child) == null) {
+                            parents.put(child, new ParentNodeRecord(curNodeToCheck, i));
+                        }
+
+
                     }
-                } else {
+                } else if (i.getNode2().getId() == curNodeToCheck.getId()) {
                     if (!visited.contains(i.getNode1())) {
+
                         INode child = i.getNode1();
                         queue.add(child);
-                        parents.add(new parentNodeRecord(child, i.getNode2(), i));
+
+
+                        if (!parents.containsKey(child)) {
+                            parents.put(child, new ParentNodeRecord(curNodeToCheck, i));
+                        }
                     }
 
                 }
             }
-
-
         }
 
 
-        List<IEdge> edgeSequence = new ArrayList<IEdge>();
+        List<IEdge> edgeSequence = new ArrayList<>();
 
 
-        System.out.println("!!!!");
-        while (destination.getId() != source.getId()) {
-            System.out.println(destination.getId());
-            for (int i = 0; i< parents.size(); i++) {
-                if (parents.get(i).getNode().getId() == destination.getId()) {
-                    edgeSequence.add(0, parents.get(i).getEdge());
-                    destination = parents.get(i).getParent();
-                    break;
-                }
-            }
+        while (node1.getId() != destination.getId()) {
+            ParentNodeRecord curDestinationRecord = parents.get(destination);
+            edgeSequence.add(curDestinationRecord.getEdge());
+            destination = curDestinationRecord.getParent();
         }
+
+
 
         return edgeSequence;
     }
 
     @Override
-    public List<INode> getNodeList() {
-        ArrayList<INode> copyList = new ArrayList<>();
-        copyList.addAll(nodeList);
-        return copyList;
+    public Set<INode> getNodeSet() {
+        HashSet<INode> copySet = new HashSet<>();
+        copySet.addAll(nodeSet);
+        return copySet;
     }
 
     @Override
@@ -113,10 +113,11 @@ public class MultiGraph implements IMultigraph {
      */
     public INode getNode(int ID) {
 
-        for (int i = 0; i < nodeList.size(); i++) {
-            if (nodeList.get(i).getId() == ID) {
 
-                return nodeList.get(i);
+        for (INode i : nodeSet) {
+            if (i.getId() == ID) {
+
+                return i;
             }
         }
 
@@ -124,44 +125,37 @@ public class MultiGraph implements IMultigraph {
     }
 
 
-    private List<IEdge> successors2(INode node) {
-        ArrayList<IEdge> successorList = new ArrayList<IEdge>();
+    private List<IEdge> successors(INode node) {
+        ArrayList<IEdge> successorList = new ArrayList<>();
         int sourceID = node.getId();
 
 
-        for (int i = 0; i < edgeList.size(); i++) {
-            if (edgeList.get(i).getNode1().getId() == sourceID) {
+        for (IEdge i : edgeList) {
+            if (i.getNode1().getId() == sourceID) {
 
-                successorList.add(edgeList.get(i));
-            } else if (edgeList.get(i).getNode2().getId() == sourceID) {
-                successorList.add(edgeList.get(i));
+                successorList.add(i);
+            } else if (i.getNode2().getId() == sourceID) {
+                successorList.add(i);
             }
         }
-
 
         return successorList;
     }
 
-    private class parentNodeRecord {
-        private INode node;
+    class ParentNodeRecord {
         private INode parent;
         private IEdge edge;
 
-        public parentNodeRecord(INode node, INode parent, IEdge edge) {
-            this.node = node;
+        ParentNodeRecord(INode parent, IEdge edge) {
             this.parent = parent;
             this.edge = edge;
         }
 
-        public INode getNode() {
-            return node;
-        }
-
-        public INode getParent() {
+        INode getParent() {
             return parent;
         }
 
-        public IEdge getEdge() {
+        IEdge getEdge() {
             return edge;
         }
     }

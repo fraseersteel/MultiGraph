@@ -2,6 +2,7 @@
 package Graph;
 
 import java.util.List;
+import java.util.Set;
 
 public interface IMultigraph {
 
@@ -24,7 +25,7 @@ public interface IMultigraph {
      * index 0, will contain the first line, and consecutively move along the path. */
     List<IEdge> getRoute(INode node1, INode node2);
 
-    List<INode> getNodeList();
+    Set<INode> getNodeSet();
     INode getNode(int ID);
 
 }
