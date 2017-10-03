@@ -2,13 +2,12 @@ package View;
 
 import Control.Controller;
 import Graph.IEdge;
+import Metro.Line;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleIO {
-
-    private String INVALID = "Invalid";
 
     public ConsoleIO(){
         System.out.println("Hello, Welcome to the Boston Metro!");
@@ -32,7 +31,17 @@ public class ConsoleIO {
 
         if(!edges.isEmpty()){
 
+            String startStation = "";
             IEdge edge = edges.get(0);
+            IEdge edge2 = edges.get(1);
+
+            //assumes that stations aren't next to each other
+            if(edge2.getNode1().getId() == edge.getNode1().getId() || edge2.getNode2().getId() == edge.getNode1().getId()){
+                startStation = edge.getNode2().toString();
+            }else{
+                startStation = edge.getNode1().toString();
+            }
+
             System.out.print(edge.getNode1() + " - ");
 
             for(int i = 0; i < edges.size() - 1; i++){

@@ -3,6 +3,7 @@ package Control;
         import Exceptions.BadFileException;
         import Graph.IMultigraph;
         import Graph.MultiGraph;
+        import Metro.Line;
         import Metro.Station;
 
         import java.io.BufferedReader;
@@ -211,7 +212,7 @@ package Control;
 
                     }
                 }
-
+                Line line2 = new Line("", thisStation, thisStation);
 
                 if(graph.getNode(Integer.parseInt(outboundID)) == null){
 //                    Station newStation = new Station(inboundID)
