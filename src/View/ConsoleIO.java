@@ -4,6 +4,7 @@ import Control.Controller;
 import Graph.IEdge;
 import Graph.INode;
 import Metro.Line;
+import Metro.Station;
 
 import java.util.List;
 import java.util.Scanner;
@@ -11,9 +12,7 @@ import java.util.Scanner;
 public class ConsoleIO {
 
     public ConsoleIO(){
-        System.out.println("Hello, Welcome to the Boston Metro!");
-        System.out.println("Type 'exit' at anytime to quit.");
-        System.out.println();
+        System.out.println("Welcome to the Boston Metro!");
     }
 
     public String prompt(String message){
@@ -23,79 +22,71 @@ public class ConsoleIO {
         return sc.nextLine();
     }
 
-    public void printRoute(List<IEdge> edges, int startId, int endId){
+    public void printRoute(List<? extends IEdge> edges, int startId, int endId){
 
         if(!edges.isEmpty()){
-
-            String startStation = "";
-            IEdge edge = edges.get(0);
-
-            //to find start node
             System.out.print("Starting from ");
-            if(edge.getNode1().getId() == startId){
-                System.out.println(edge.getNode1());
-            }else{
-                System.out.println(edge.getNode2());
-            }
+            printStationDetails(edges.get(0), startId);
 
-            //loop though edges
-            String previousLine = edge.getLabel();
-            System.out.print("Travel on the " + previousLine + " for ");
-            int stationCount = 0;
+            formatRouteList(edges);
 
-            for(int i = 0; i < edges.size(); i++){
-
-//
-                edge = edges.get(i);
-
-                //If line has changed
-                if(!previousLine.equals(edge.getLabel())){
-
-                    if(stationCount<2){
-                        System.out.println(stationCount + " stop");
-                    }else {
-                        System.out.println(stationCount + " stops");
-                    }
-
-                    IEdge tempEdge = edges.get(i-1);
-                    INode tempNode = tempEdge.getNode1();
-
-                    if(!tempNode.equals(edge.getNode1()) && !tempNode.equals(edge.getNode2())){
-                         tempNode = tempEdge.getNode2();
-                    }
-
-                    System.out.println("At Station '" + tempNode + "' change to '" + edge.getLabel() + "' from '" + previousLine + "'");
-                    previousLine = edge.getLabel();
-                    System.out.print("Travel on the " + previousLine + " for ");
-                    stationCount = 0;
-                }
-                stationCount++;
-            }
-            if(stationCount<2){
-                System.out.println(stationCount + " stop");
-            }else {
-                System.out.println(stationCount + " stops");
-            }
-
-            //to find end node
-            edge = edges.get(edges.size() - 1);
-
-            System.out.print("The final stop is ");
-            if(edge.getNode1().getId() == endId){
-                System.out.println(edge.getNode1());
-            }else{
-                System.out.println(edge.getNode2());
-            }
-
-            System.out.println();
-
+            System.out.print("Until you reach your destination ");
+            printStationDetails(edges.get(edges.size() - 1), endId);
         }else{
-
             System.out.println("No Route Found.");
-            System.out.println();
+        }
+        System.out.println();
+    }
+
+    private void formatRouteList(List<? extends IEdge> edges){
+        IEdge currentEdge = edges.get(0);
+        String previousLine = currentEdge.getLabel();
+
+        int stationCount = 1;
+        for(int i = 1; i < edges.size(); i++){
+            currentEdge = edges.get(i);
+
+            if(!previousLine.equals(currentEdge.getLabel())){
+
+                printNumberOfStops(previousLine, stationCount);
+
+                IEdge previousEdge = edges.get(i-1);
+                INode connectingNode = previousEdge.getNode1();
+
+                if(!connectingNode.equals(currentEdge.getNode1()) && !connectingNode.equals(currentEdge.getNode2())){
+                    connectingNode = previousEdge.getNode2();
+                }
+
+                System.out.println("When you reach Station '" + connectingNode + "' change line to '" + currentEdge.getLabel() + "' from '" + previousLine + "'");
+                previousLine = currentEdge.getLabel();
+                stationCount = 0;
+            }
+            stationCount++;
         }
 
+        printNumberOfStops(previousLine, stationCount);
+    }
 
+    private void printNumberOfStops(String previousLine, int count){
+        System.out.print("Travel on the '" + previousLine + "' for " + count);
+        if(count<2){
+            System.out.println(" stop");
+        }else {
+            System.out.println(" stops");
+        }
+    }
 
+    private void printStationDetails(IEdge edge, int nodeId){
+        if(edge.getNode1().getId() == nodeId){
+            System.out.println(edge.getNode1());
+        }else{
+            System.out.println(edge.getNode2());
+        }
+    }
+
+    public void printList(List<?> list){
+        System.out.println();
+        list.stream().forEach(System.out::println);
+        System.out.println();
     }
 }

@@ -30,4 +30,9 @@ public class Line implements IEdge {
     public String getLabel() {
         return label;
     }
+
+    @Override
+    public String toString(){
+        return node1 + " - " + label + " - " + node2;
+    }
 }
