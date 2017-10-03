@@ -1,12 +1,9 @@
 package Graph;
-
+import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 import java.util.Set;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.HashMap;
 
 public class MultiGraph implements IMultigraph {
@@ -44,7 +41,7 @@ public class MultiGraph implements IMultigraph {
         INode destination = node2;
 
         List<INode> visited = new ArrayList<>();
-        Queue<INode> queue = new LinkedList<>();
+        LinkedList<INode> queue = new LinkedList<>();
 
         HashMap<INode, ParentNodeRecord> parents = new HashMap<>();
 
