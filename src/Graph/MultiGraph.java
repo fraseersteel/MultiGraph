@@ -35,6 +35,16 @@ public class MultiGraph implements IMultigraph {
         return true;
     }
 
+/* TODO consider removal
+*
+ */
+    @Override
+    public List<INode> getNodeList() {
+        ArrayList<INode> nodeList = new ArrayList<>();
+        nodeList.addAll(nodeSet);
+
+        return nodeList;
+    }
 
     public List<IEdge> getRoute(INode node1, INode node2) {
 
@@ -63,7 +73,7 @@ public class MultiGraph implements IMultigraph {
                         queue.add(child);
 
 
-                        if (parents.get(child) == null) {
+                        if (!parents.containsKey(child)) {
                             parents.put(child, new ParentNodeRecord(curNodeToCheck, i));
                         }
 
