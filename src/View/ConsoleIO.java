@@ -31,6 +31,7 @@ public class ConsoleIO {
             IEdge edge = edges.get(0);
 
             //to find start node
+            System.out.print("Starting from ");
             if(edge.getNode1().getId() == startId){
                 System.out.println(edge.getNode1());
             }else{
@@ -50,7 +51,12 @@ public class ConsoleIO {
                 //If line has changed
                 if(!previousLine.equals(edge.getLabel())){
 
-//                    System.out.println(stationCount + " stops");
+                    if(stationCount<2){
+                        System.out.println(stationCount + " stop");
+                    }else {
+                        System.out.println(stationCount + " stops");
+                    }
+
                     IEdge tempEdge = edges.get(i-1);
                     INode tempNode = tempEdge.getNode1();
 
@@ -65,16 +71,22 @@ public class ConsoleIO {
                 }
                 stationCount++;
             }
-//            System.out.println(stationCount + " stops");
+            if(stationCount<2){
+                System.out.println(stationCount + " stop");
+            }else {
+                System.out.println(stationCount + " stops");
+            }
 
             //to find end node
             edge = edges.get(edges.size() - 1);
 
+            System.out.print("The final stop is ");
             if(edge.getNode1().getId() == endId){
                 System.out.println(edge.getNode1());
             }else{
                 System.out.println(edge.getNode2());
             }
+
             System.out.println();
 
         }else{
