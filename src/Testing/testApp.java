@@ -45,7 +45,7 @@ public class testApp {
         MG.addEdge(new Line("alp", first, third));
         MG.addEdge(new Line("ban", second, third));
         MG.addEdge(new Line("can", second, fourth));
-        MG.addEdge(new Line("dan", second, fifth));
+        MG.addEdge(new Line("eaa", second, fifth));
         MG.addEdge(new Line("eaa", fifth, seventh));
         MG.addEdge(new Line("ffa", third, sixth));
         MG.addEdge(new Line("gga", sixth, eighth));

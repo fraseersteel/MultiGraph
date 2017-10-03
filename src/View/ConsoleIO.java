@@ -39,12 +39,12 @@ public class ConsoleIO {
 
             //loop though edges
             String previousLine = edge.getLabel();
-//            System.out.print("Travel on the " + previousLine + " for ");
-//            int stationCount = 0;
+            System.out.print("Travel on the " + previousLine + " for ");
+            int stationCount = 0;
 
             for(int i = 0; i < edges.size(); i++){
 
-//                stationCount++;
+//
                 edge = edges.get(i);
 
                 //If line has changed
@@ -58,11 +58,12 @@ public class ConsoleIO {
                          tempNode = tempEdge.getNode2();
                     }
 
-                    System.out.println("Change Line from " + previousLine + " To " + edge.getLabel() + " at Station: " + tempNode);
+                    System.out.println("At Station '" + tempNode + "' change to '" + edge.getLabel() + "' from '" + previousLine + "'");
                     previousLine = edge.getLabel();
-//                    System.out.print("Travel on the " + previousLine + " for ");
-//                    stationCount = 1;
+                    System.out.print("Travel on the " + previousLine + " for ");
+                    stationCount = 0;
                 }
+                stationCount++;
             }
 //            System.out.println(stationCount + " stops");
 
