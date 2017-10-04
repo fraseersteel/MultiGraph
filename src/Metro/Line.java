@@ -40,10 +40,10 @@ public class Line implements IEdge {
     @Override
     public INode getOtherNode(int ID) {
         if(node1.getId() == ID){
-            return node2;
+            return node1;
         }
         else{
-            return node1;
+            return node2;
         }
     }
 }

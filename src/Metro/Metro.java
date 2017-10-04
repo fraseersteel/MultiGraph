@@ -45,4 +45,9 @@ public class Metro {
                 .forEach(line -> edges.add((Line)line));
         return edges;
     }
+
+
+//    public List<Line> getAllStations(Station station){
+//
+//    }
 }

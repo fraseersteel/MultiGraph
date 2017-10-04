@@ -8,4 +8,6 @@ public interface IEdge {
 
     String getLabel();
 
+    INode getOtherNode(int ID);
+
 }

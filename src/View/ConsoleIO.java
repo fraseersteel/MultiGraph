@@ -25,6 +25,9 @@ public class ConsoleIO {
     public void printRoute(List<? extends IEdge> edges, int startId, int endId){
 
         if(!edges.isEmpty()){
+
+            System.out.println("--- Your Journey plan ---");
+            System.out.println();
             System.out.print("Starting from ");
             printStationDetails(edges.get(0), startId);
 
@@ -77,12 +80,12 @@ public class ConsoleIO {
     }
 
     private void printStationDetails(IEdge edge, int nodeId){
-        if(edge.getNode1().getId() == nodeId){
-            System.out.println(edge.getNode1());
-        }else{
-            System.out.println(edge.getNode2());
-        }
+        INode otherNode = edge.getOtherNode(nodeId);
+        System.out.println(otherNode);
+
     }
+
+
 
     public void printList(List<?> list){
         System.out.println();
