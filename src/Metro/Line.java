@@ -35,4 +35,15 @@ public class Line implements IEdge {
     public String toString(){
         return node1 + " - " + label + " - " + node2;
     }
+
+
+    @Override
+    public INode getOtherNode(int ID) {
+        if(node1.getId() == ID){
+            return node2;
+        }
+        else{
+            return node1;
+        }
+    }
 }
