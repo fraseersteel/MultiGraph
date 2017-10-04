@@ -47,7 +47,7 @@ public class MultiGraph implements IMultigraph {
     }
 
     public List<IEdge> getRoute(INode node1, INode node2) {
-
+        System.out.println("got 3 (in MultiGraph)");
         INode destination = node2;
 
         List<INode> visited = new ArrayList<>();

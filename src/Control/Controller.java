@@ -59,7 +59,7 @@ public class Controller {
             if(destinationStation == null){
                 break;
             }
-
+            System.out.println("got 1 (in Controller)");
             consoleIO.printRoute(metro.route(startingStation, destinationStation), startingStation.getId(), destinationStation.getId());
             printUserCommands();
             System.out.println(" --- Next Route ---");

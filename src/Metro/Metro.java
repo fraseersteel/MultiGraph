@@ -22,10 +22,13 @@ public class Metro {
     }
 
     public List<Line> route(Station startingStation, Station destinationStation){
+        System.out.println("got 2 (in Metro)");
         List<Line> route = new ArrayList<>();
-        graph.getRoute(startingStation, destinationStation)
-                .stream()
+        List<IEdge> edges = graph.getRoute(startingStation, destinationStation);
+        System.out.println("got 4 (in Metro)");
+                edges.stream()
                 .forEach(line -> route.add((Line)line));
+        System.out.println("got 5 (in Metro)");
         return route; 
     }
 
