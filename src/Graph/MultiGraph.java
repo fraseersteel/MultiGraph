@@ -71,7 +71,7 @@ public class MultiGraph implements IMultigraph {
                     if (!visited.contains(i.getNode2())) {
                         INode child = i.getNode2();
                         queue.add(child);
-
+                        visited.add(child);
 
                         if (!parents.containsKey(child)) {
                             parents.put(child, new ParentNodeRecord(curNodeToCheck, i));
@@ -84,7 +84,7 @@ public class MultiGraph implements IMultigraph {
 
                         INode child = i.getNode1();
                         queue.add(child);
-
+                        visited.add(child);
 
                         if (!parents.containsKey(child)) {
                             parents.put(child, new ParentNodeRecord(curNodeToCheck, i));
