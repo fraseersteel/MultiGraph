@@ -58,28 +58,28 @@ package Control;
     private BufferedReader fileInput;
 
 
-    public static void main(String[] args)
-    {
-
-        if(args.length != 1)
-        {
-            usage();
-            System.exit(0);
-        }
-
-        String filename = args[0];
-
-
-        try
-        {
-            MetroMapParser mmp = new MetroMapParser(filename);
-            mmp.generateGraphFromFile();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args)
+//    {
+//
+//        if(args.length != 1)
+//        {
+//            usage();
+//            System.exit(0);
+//        }
+//
+//        String filename = args[0];
+//
+//
+//        try
+//        {
+//            MetroMapParser mmp = new MetroMapParser(filename);
+//            mmp.generateGraphFromFile();
+//        }
+//        catch(Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//    }
 
 
     private static void usage()
@@ -172,12 +172,14 @@ package Control;
             {
                 throw new BadFileException("station is on no lines");
             }
-            System.out.println("Station: " + stationID + "-" + stationName);
+//            System.out.println("Station: " + stationID + "-" + stationName);
 
 
             Station thisStation = new Station(Integer.parseInt(stationID), stationName);
 
-            graph.addNode(thisStation);
+            if(!graph.addNode(thisStation)) {
+                ((Station)graph.getNode(Integer.parseInt(stationID))).setName(stationName);
+            }
 
             while(st.hasMoreTokens())
             {
@@ -200,26 +202,27 @@ package Control;
                 inboundID = st.nextToken();
                 Integer inbound = Integer.parseInt(inboundID);
 
-                System.out.println("Edge: " + outboundID + "-" + lineName + "-" + stationID);
-                System.out.println("Edge: " + stationID + "-" + lineName + "-" + inboundID);
+//                System.out.println("Edge: " + outboundID + "-" + lineName + "-" + stationID);
+//                System.out.println("Edge: " + stationID + "-" + lineName + "-" + inboundID);
 
 
                 if(!outboundID.equals("0")){
                     if(graph.getNode(outbound) == null){
-//                        Station new Station = new Station(outboundID)
+                        Station newStation = new Station(outbound);
+                        graph.addNode(newStation);
                     }
+                    Line line1 = new Line(lineName,(Station)graph.getNode(outbound),thisStation);
+                    graph.addEdge(line1);
                 }
 
 
                 if(!inboundID.equals("0")){
-                    if (graph.getNode(inbound) == null){
-
+                    if(graph.getNode(inbound) == null){
+                        Station newStation = new Station(inbound);
+                        graph.addNode(newStation);
                     }
-                }
-                Line line2 = new Line("", thisStation, thisStation);
-
-                if(graph.getNode(outbound) == null){
-//                    Station newStation = new Station(inboundID)
+                    Line line1 = new Line(lineName,(Station)graph.getNode(inbound),thisStation);
+                    graph.addEdge(line1);
                 }
 
             }

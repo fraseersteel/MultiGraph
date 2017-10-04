@@ -7,6 +7,7 @@ import Metro.Station;
 import View.ConsoleIO;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
@@ -98,7 +99,14 @@ public class Controller {
 
                 System.out.println("We have found multiple stations with the name '" + input + "'");
                 System.out.println("Please pick from the options below to specify which line your station is on: ");
-                //print out choice of lines
+                List<Line> stationOneLines =  metro.getLinesConnectedToStation(stations.get(0));
+                List<Line> stationTwoLines = metro.getLinesConnectedToStation(stations.get(1));
+                List<Line> tempDupe = new ArrayList<>();
+                tempDupe.addAll(stationOneLines);
+                stationOneLines.removeAll(stationTwoLines);
+                stationTwoLines.removeAll(tempDupe);
+
+                System.out.println("If your Station on line: '" + stationOneLines.get(0) + "'" );
                 System.out.println();
             }else{
 

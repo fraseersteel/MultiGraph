@@ -101,7 +101,7 @@ public class MultiGraph implements IMultigraph {
 
         while (node1.getId() != destination.getId()) {
             ParentNodeRecord curDestinationRecord = parents.get(destination);
-            edgeSequence.add(curDestinationRecord.getEdge());
+            edgeSequence.add(0, curDestinationRecord.getEdge());
             destination = curDestinationRecord.getParent();
         }
 
@@ -135,7 +135,7 @@ public class MultiGraph implements IMultigraph {
     }
 
 
-    private List<IEdge> successors(INode node) {
+    public List<IEdge> successors(INode node) {
         ArrayList<IEdge> successorList = new ArrayList<>();
         int sourceID = node.getId();
 

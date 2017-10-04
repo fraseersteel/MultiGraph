@@ -37,4 +37,12 @@ public class Metro {
                 .forEach(station -> stationsWithName.add((Station)station));
         return  stationsWithName;
     }
+
+    public List<Line> getLinesConnectedToStation(Station station){
+        List<Line> edges = new ArrayList<>();
+        graph.successors(station)
+                .stream()
+                .forEach(line -> edges.add((Line)line));
+        return edges;
+    }
 }

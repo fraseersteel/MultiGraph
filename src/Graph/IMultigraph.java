@@ -28,6 +28,6 @@ public interface IMultigraph {
     List<INode> getNodeList();
     Set<INode> getNodeSet();
     INode getNode(int ID);
- 
 
+    List<IEdge> successors(INode node);
 }
