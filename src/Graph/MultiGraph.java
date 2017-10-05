@@ -19,6 +19,18 @@ public class MultiGraph implements IMultigraph {
 
 
     @Override
+    public Boolean checkEdgeExists(int id1, int id2) {
+        for (IEdge i : edgeList) {
+            if (i.getNode1().getId() == id1 && i.getNode2().getId() == id2) {
+                return true;
+            } else if (i.getNode1().getId() == id2 && i.getNode2().getId() == id1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public boolean addNode(INode node) {
         for (INode i : nodeSet) {
             if (i.getId() == node.getId()) {
@@ -169,5 +181,7 @@ public class MultiGraph implements IMultigraph {
             return edge;
         }
     }
+
+
 
 }
