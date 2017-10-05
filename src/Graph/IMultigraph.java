@@ -29,6 +29,6 @@ public interface IMultigraph {
     Set<INode> getNodeSet();
     INode getNode(int ID);
 
-    Boolean checkEdgeExists(int id1, int id2);
+    Boolean checkEdgeExists(int id1, int id2, String label);
     List<IEdge> successors(INode node);
 }
