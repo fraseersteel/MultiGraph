@@ -28,7 +28,7 @@ public class Station implements INode {
     public String toString() {
         return name;
     }
-
+    @Override
     public String getName() {
         return name;
     }

@@ -6,4 +6,5 @@ import java.util.Set;
 public interface INode<N> {
 
     int getId();
+    String getName();
 }

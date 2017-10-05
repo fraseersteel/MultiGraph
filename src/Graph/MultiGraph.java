@@ -10,6 +10,7 @@ public class MultiGraph implements IMultigraph {
 
     private List<IEdge> edgeList;
 
+
     private Set<INode> nodeSet;
 
     public MultiGraph() {
@@ -17,18 +18,15 @@ public class MultiGraph implements IMultigraph {
         edgeList = new ArrayList<>();
     }
 
-
-    @Override
-    public Boolean checkEdgeExists(int id1, int id2, String label) {
+    private Boolean checkEdgeExists(IEdge edge) {
         for (IEdge i : edgeList) {
-            if (i.getLabel().equals(label)) {
-                if (i.getNode1().getId() == id1 && i.getNode2().getId() == id2) {
-                    return true;
-                } else if (i.getNode1().getId() == id2 && i.getNode2().getId() == id1) {
-                    return true;
+            if (i.getLabel().equals(edge.getLabel())) {
+                if (i.getNode1().getId() == edge.getNode1().getId()) {
+                    if (i.getNode2().getId() == edge.getNode2().getId()){
+                        return false;
+                    }
                 }
             }
-
         }
         return false;
     }
@@ -46,11 +44,28 @@ public class MultiGraph implements IMultigraph {
 
     @Override
     public boolean addEdge(IEdge edge) {
-        if (checkEdgeExists(edge.getNode1().getId(), edge.getNode2().getId(), edge.getLabel())) {
+        if (checkEdgeExists(edge)) {
             return false;
         }
+
+
+
         edgeList.add(edge);
         return true;
+    }
+
+
+    @Override
+    public List<INode> getNodesWithName(String name) {
+        ArrayList<INode> matchingNodes = new ArrayList<>();
+
+        for (INode i : nodeSet) {
+            if (i.getName().equals(name)) {
+                matchingNodes.add(i);
+            }
+        }
+
+        return matchingNodes;
     }
 
 /* TODO consider removal
