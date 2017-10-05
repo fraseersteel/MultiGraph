@@ -1,4 +1,5 @@
 package Graph;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -9,8 +10,6 @@ import java.util.HashMap;
 public class MultiGraph implements IMultigraph {
 
     private List<IEdge> edgeList;
-
-
     private Set<INode> nodeSet;
 
     public MultiGraph() {
@@ -18,18 +17,6 @@ public class MultiGraph implements IMultigraph {
         edgeList = new ArrayList<>();
     }
 
-    private Boolean checkEdgeExists(IEdge edge) {
-        for (IEdge i : edgeList) {
-            if (i.getLabel().equals(edge.getLabel())) {
-                if (i.getNode1().getId() == edge.getNode1().getId()) {
-                    if (i.getNode2().getId() == edge.getNode2().getId()){
-                        return false;
-                    }
-                }
-            }
-        }
-        return false;
-    }
 
     @Override
     public boolean addNode(INode node) {
@@ -47,7 +34,6 @@ public class MultiGraph implements IMultigraph {
         if (checkEdgeExists(edge)) {
             return false;
         }
-
 
 
         edgeList.add(edge);
@@ -68,9 +54,9 @@ public class MultiGraph implements IMultigraph {
         return matchingNodes;
     }
 
-/* TODO consider removal
-*
- */
+    /* TODO consider removal
+    *
+     */
     @Override
     public List<INode> getNodeList() {
         ArrayList<INode> nodeList = new ArrayList<>();
@@ -99,33 +85,24 @@ public class MultiGraph implements IMultigraph {
 
             List<IEdge> successors = successors(curNodeToCheck);
 
+
             for (IEdge i : successors) {
-                if (i.getNode1().getId() == curNodeToCheck.getId()) {
-                    if (!visited.contains(i.getNode2())) {
-                        INode child = i.getNode2();
-                        queue.add(child);
-                        visited.add(child);
 
-                        if (!parents.containsKey(child)) {
-                            parents.put(child, new ParentNodeRecord(curNodeToCheck, i));
-                        }
+                INode connectingNode = i.getOtherNode(curNodeToCheck.getId());
+                if (!visited.contains(connectingNode)) {
+                    queue.add(connectingNode);
+                    visited.add(connectingNode);
 
 
-                    }
-                } else if (i.getNode2().getId() == curNodeToCheck.getId()) {
-                    if (!visited.contains(i.getNode1())) {
+                    if (!parents.containsKey(connectingNode)) {
 
-                        INode child = i.getNode1();
-                        queue.add(child);
-                        visited.add(child);
-
-                        if (!parents.containsKey(child)) {
-                            parents.put(child, new ParentNodeRecord(curNodeToCheck, i));
-                        }
+                        parents.put(connectingNode, new ParentNodeRecord(curNodeToCheck, i));
                     }
 
                 }
             }
+
+
         }
 
 
@@ -137,7 +114,6 @@ public class MultiGraph implements IMultigraph {
             edgeSequence.add(0, curDestinationRecord.getEdge());
             destination = curDestinationRecord.getParent();
         }
-
 
 
         return edgeSequence;
@@ -185,9 +161,23 @@ public class MultiGraph implements IMultigraph {
         return successorList;
     }
 
+    private Boolean checkEdgeExists(IEdge edge) {
+        for (IEdge i : edgeList) {
+            if (i.getLabel().equals(edge.getLabel())) {
+                if (i.getNode1().getId() == edge.getNode1().getId()) {
+                    if (i.getNode2().getId() == edge.getNode2().getId()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     class ParentNodeRecord {
         private INode parent;
         private IEdge edge;
+        
 
         ParentNodeRecord(INode parent, IEdge edge) {
             this.parent = parent;
@@ -202,7 +192,6 @@ public class MultiGraph implements IMultigraph {
             return edge;
         }
     }
-
 
 
 }
