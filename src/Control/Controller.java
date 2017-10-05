@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Controller {
 
     private Metro metro;
@@ -82,6 +83,9 @@ public class Controller {
         while(true){
 
             input = consoleIO.prompt(message);
+            input =  Character.toString(input.charAt(0)).toUpperCase()+input.substring(1);
+            input = input.replaceAll("\\s","");
+
 
             List<Station> stations = metro.getStationsWithName(input);
 
