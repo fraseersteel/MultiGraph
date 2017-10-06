@@ -98,8 +98,6 @@ public class ConsoleIO {
     }
 
     public void printList(List<?> list){
-        System.out.println();
-        list.stream().forEach(System.out::println);
-        System.out.println();
+        list.stream().forEach(s -> System.out.println(" - '" + s + "'"));
     }
 }

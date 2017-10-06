@@ -1,32 +1,27 @@
 package Graph;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.HashMap;
+import java.util.*;
 
 public class MultiGraph implements IMultigraph {
 
     private List<IEdge> edgeList;
-    private Set<INode> nodeSet;
+    private List<INode> nodes;
 
     public MultiGraph() {
-        nodeSet = new HashSet<>();
+        nodes = new ArrayList<>();
         edgeList = new ArrayList<>();
     }
 
 
     @Override
     public boolean addNode(INode node) {
-        for (INode i : nodeSet) {
+        for (INode i : nodes) {
             if (i.getId() == node.getId()) {
                 return false;
             }
         }
 
-        return (nodeSet.add(node));
+        return (nodes.add(node));
     }
 
     @Override
@@ -43,9 +38,9 @@ public class MultiGraph implements IMultigraph {
 
     @Override
     public List<INode> getNodesWithName(String name) {
-        ArrayList<INode> matchingNodes = new ArrayList<>();
+        List<INode> matchingNodes = new ArrayList<>();
 
-        for (INode i : nodeSet) {
+        for (INode i : nodes) {
             if (i.getName().equals(name)) {
                 matchingNodes.add(i);
             }
@@ -54,16 +49,10 @@ public class MultiGraph implements IMultigraph {
         return matchingNodes;
     }
 
-    /* TODO consider removal
-    *
-     */
-//    @Override
-//    public List<INode> getNodeList() {
-//        ArrayList<INode> nodeList = new ArrayList<>();
-//        nodeList.addAll(nodeSet);
-//
-//        return nodeList;
-//    }
+    @Override
+    public List<INode> getNodes() {
+        return Collections.unmodifiableList(this.nodes);
+    }
 
     public List<IEdge> getRoute(INode node1, INode node2) {
         INode destination = node2;
@@ -121,7 +110,7 @@ public class MultiGraph implements IMultigraph {
 //    @Override
 //    public Set<INode> getNodeSet() {
 //        HashSet<INode> copySet = new HashSet<>();
-//        copySet.addAll(nodeSet);
+//        copySet.addAll(nodes);
 //        return copySet;
 //    }
 
@@ -131,7 +120,7 @@ public class MultiGraph implements IMultigraph {
      */
     public INode getNode(int ID) {
 
-        for (INode i : nodeSet) {
+        for (INode i : nodes) {
             if (i.getId() == ID) {
 
                 return i;
@@ -162,9 +151,9 @@ public class MultiGraph implements IMultigraph {
     private Boolean checkEdgeExists(IEdge edge) {
         for (IEdge i : edgeList) {
             if (i.getLabel().equals(edge.getLabel())
-                    && i.getNode1().getId() == edge.getNode1().getId()
-                    && i.getNode2().getId() == edge.getNode2().getId()) {
-                return false;
+                    && (i.getNode1().getId() == edge.getNode1().getId() || i.getNode1().getId() == edge.getNode2().getId())
+                    && (i.getNode2().getId() == edge.getNode1().getId() || i.getNode1().getId() == edge.getNode2().getId())) {
+                return true;
             }
         }
         return false;

@@ -5,6 +5,7 @@ import Graph.IMultigraph;
 import Graph.INode;
 import View.ConsoleIO;
 
+import javax.sound.midi.SysexMessage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,11 +40,14 @@ public class Controller {
                 break;
             }
 
-            consoleIO.printRoute(graph.getRoute(startingStation, destinationStation), startingStation.getId(), destinationStation.getId());
-
-            printUserCommands();
-            System.out.println(" --- Next Route ---");
-            System.out.println();
+            if(startingStation.getId() == destinationStation.getId()){
+                System.out.println("You are already at this location");
+            }else {
+                consoleIO.printRoute(graph.getRoute(startingStation, destinationStation), startingStation.getId(), destinationStation.getId());
+                printUserCommands();
+                System.out.println(" --- Next Route ---");
+                System.out.println();
+            }
         }
 
         System.out.println();
@@ -63,7 +67,6 @@ public class Controller {
             input =  Character.toString(input.charAt(0)).toUpperCase()+input.substring(1);
             input = input.replaceAll("\\s","");
 
-
             List<INode> stations = graph.getNodesWithName(input);
 
             if(input.toLowerCase().equals("exit")){
@@ -71,25 +74,73 @@ public class Controller {
             }
 
             if(stations.isEmpty()){
-                System.out.println("Sorry, station not recognised. Make sure you have spelt the name correclty and try again.");
+                manageStationNotValid(input);
             }else if(stations.size() > 1){
-
-                System.out.println("We have found multiple stations with the name '" + input + "'");
-                System.out.println("Please pick from the options below to specify which line your station is on: ");
-                List<IEdge> stationOneLines =  graph.successors(stations.get(0));
-                List<IEdge> stationTwoLines = graph.successors(stations.get(1));
-                List<IEdge> tempDupe = new ArrayList<>();
-                tempDupe.addAll(stationOneLines);
-                stationOneLines.removeAll(stationTwoLines);
-                stationTwoLines.removeAll(tempDupe);
-
-                System.out.println("If your Node on line: '" + stationOneLines.get(0) + "'" );
-                System.out.println();
+                System.out.println("We have found multiple stations with the name '" + input + "'.");
+                int i = manageDuplicateStations(stations);
+                if(i == -1){
+                    return null;
+                }else if(i >= 0){
+                    return stations.get(i);
+                }
             }else{
 
                 return stations.get(0);
             }
 
+        }
+    }
+
+    private void manageStationNotValid(String input){
+
+        System.out.println("That doesn't seem to be a station name we recognise.");
+        List<INode> nodes = new ArrayList<>();
+        graph.getNodes().stream().filter(n -> n.getName().startsWith(input)).forEach(n -> nodes.add(n));
+
+        if(nodes.size() == 1){
+            System.out.println("You might have meant the following: ");
+        }else if(nodes.size() > 0){
+            System.out.println("You might have meant one of the following: ");
+        }
+        consoleIO.printList(nodes);
+        System.out.println("Make sure you have spelt the name correclty and try again.");
+        System.out.println();
+    }
+
+    private int manageDuplicateStations(List<INode> stations){
+
+        List<IEdge> stationLines;
+        System.out.println();
+        System.out.println("If the Station you meant is neighbours with:");
+        for(int i = 0; i < stations.size(); i++){
+            INode currentStation = stations.get(i);
+            stationLines =  graph.successors(currentStation);
+            System.out.print("OPTION " + (i+1) + ": '" + stationLines.get(0).getOtherNode(currentStation.getId()) + "'");
+            for(int j = 1; j < stationLines.size(); j++){
+                System.out.print(" and '" + stationLines.get(j).getOtherNode(currentStation.getId()) + "' ");
+            }
+            System.out.println();
+        }
+        String input = consoleIO.prompt("Else, if you didn't mean any of the above options, enter 'none'.");
+        while (true) {
+            if (input.toLowerCase().equals("exit")) {
+                return -1;
+            }
+            if (input.toLowerCase().equals("none")) {
+                return -2;
+            } else {
+                try {
+                    int i = Integer.parseInt(input) - 1;
+                    if(i > stations.size()-1 || i < 0){
+                        input = consoleIO.prompt("Sorry, That number was not an option, choose one of the options above.");
+                    }else{
+                        stations.get(i);
+                        return i;
+                    }
+                } catch (Exception e) {
+                    input = consoleIO.prompt("Sorry, That is not a number, please either type 'none' or one of the options above.");
+                }
+            }
         }
     }
 }

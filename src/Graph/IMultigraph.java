@@ -24,7 +24,7 @@ public interface IMultigraph {
      * Returns an implementation of java.util.List which contains implementations of IEdges. The list, starting from
      * index 0, will contain the first line, and consecutively move along the path. */
     List<IEdge> getRoute(INode node1, INode node2);
-
+    List<INode> getNodes();
     List<INode> getNodesWithName(String name);
 
     INode getNode(int ID);

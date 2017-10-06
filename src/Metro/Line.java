@@ -33,7 +33,7 @@ public class Line implements IEdge {
 
     @Override
     public String toString(){
-        return node1 + " - " + label + " - " + node2;
+        return label;
     }
 
 
