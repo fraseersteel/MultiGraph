@@ -95,10 +95,7 @@ public class MultiGraph implements IMultigraph {
                         ParentNodeRecord successorParent = new ParentNodeRecord(curNodeToCheck, i);
                         parents.put(connectingNode, new ArrayList<>());
                         parents.get(connectingNode).add(successorParent);
-                        System.out.println(connectingNode.getName() + " ADDED: " + curNodeToCheck.getName());
 
-                        System.out.println("\n\n\n\n");
-                        System.out.println(parents.containsKey(getNodesWithName("NorthStation")));
 
                     } else {
                         int successorDepth = nodeDepths.get(connectingNode);
@@ -108,7 +105,7 @@ public class MultiGraph implements IMultigraph {
 
 ///TODO
                             ParentNodeRecord successorParent = new ParentNodeRecord(curNodeToCheck, i);
-                            System.out.println("Second route found  " + connectingNode.getName() + "   " +  successorParent.getParent().getName());
+
                             parents.get(connectingNode).add(successorParent);
                         }
                     }
@@ -118,24 +115,61 @@ public class MultiGraph implements IMultigraph {
         }
 
         List<IEdge> edgeSequence = new ArrayList<>();
-        System.out.println("\n\n\n\n");
-        System.out.println(parents.containsKey(node2));
+
+
 
         INode destination = node2;
 
         String optimalEdgeLabel = parents.get(destination).get(0).getEdge().getLabel();
 
-
-
+for (INode i : parents.keySet()) {
+    System.out.println(i.getName() + "   " + parents.get(i).size());
+}
+System.out.println();
+        HashMap<String, Integer> destinationEdgeLabelLengths = new HashMap<>() ;
         for (ParentNodeRecord i : parents.get(destination)) {
-            if (parents.containsKey(i.getParent())) {
-                for (ParentNodeRecord j : parents.get(i.getParent())) {
-                    if (j.getEdge().getLabel().equals(i.getEdge().getLabel())) {
-                        optimalEdgeLabel = j.getEdge().getLabel();
+            INode workingDestination = i.getParent();
+            int currentEdgeLength = 0;
+            optimalEdgeLabel = i.getEdge().getLabel();
+
+            boolean ended = false;
+            while (parents.containsKey(workingDestination)&& !ended) {
+                ended = true;
+                for (ParentNodeRecord j : parents.get(workingDestination)) {
+                    if (j.getEdge().getLabel().equals(optimalEdgeLabel)) {
+                        currentEdgeLength ++;
+                        workingDestination = j.getParent();
+                        ended = false;
                     }
+
+
                 }
+
+
+                destinationEdgeLabelLengths.put(i.getEdge().getLabel(), currentEdgeLength);
+
+            }
+
+            destinationEdgeLabelLengths.put(optimalEdgeLabel, currentEdgeLength);
+        }
+
+
+
+
+
+
+
+        int optimalEdgeLength = 0;
+        for (String i : destinationEdgeLabelLengths.keySet()) {
+            System.out.println(i + destinationEdgeLabelLengths.get(i));
+            if (optimalEdgeLength < destinationEdgeLabelLengths.get(i)) {
+                optimalEdgeLabel = i;
             }
         }
+
+
+
+        System.out.println(optimalEdgeLabel);
 
         destination = node2;
         while (node1.getId() != destination.getId()) {
@@ -149,7 +183,7 @@ public class MultiGraph implements IMultigraph {
                 }
             }
             if (!optimalFound) {
-                System.out.println("NO OPTIMUS");
+
                 if (parents.containsKey(destination)) {
 
 
@@ -167,9 +201,7 @@ public class MultiGraph implements IMultigraph {
                     }
                 }
             }
-            if (parents.containsKey(destination)) {
-                System.out.println(destination.getName()    + parents.get(destination).size());
-            }
+
 
 
         }
