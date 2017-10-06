@@ -66,21 +66,18 @@ public class MultiGraph implements IMultigraph {
     }
 
     public List<IEdge> getRoute(INode node1, INode node2) {
-        INode destination = node2;
 
-        List<INode> visited = new ArrayList<>();
+
         LinkedList<INode> queue = new LinkedList<>();
 
-        HashMap<INode, ParentNodeRecord> parents = new HashMap<>();
-
-        visited.add(node1);
+        HashMap<INode, ArrayList<ParentNodeRecord>> parents = new HashMap<>();
         queue.add(node1);
+
+        HashMap<INode, Integer> nodeDepths = new HashMap<>();
+        nodeDepths.put(node1, 0);
+
         while (!queue.isEmpty()) {
             INode curNodeToCheck = queue.poll();
-
-            if (curNodeToCheck.getId() == node2.getId()) {
-                break;
-            }
 
             List<IEdge> successors = successors(curNodeToCheck);
 
@@ -88,32 +85,94 @@ public class MultiGraph implements IMultigraph {
             for (IEdge i : successors) {
 
                 INode connectingNode = i.getOtherNode(curNodeToCheck.getId());
-                if (!visited.contains(connectingNode)) {
-                    queue.add(connectingNode);
-                    visited.add(connectingNode);
 
-
+                if (connectingNode == node1) {
+                    //Do nothing
+                } else {
                     if (!parents.containsKey(connectingNode)) {
+                        queue.add(connectingNode);
+                        nodeDepths.put(connectingNode, nodeDepths.get(curNodeToCheck) + 1);
+                        ParentNodeRecord successorParent = new ParentNodeRecord(curNodeToCheck, i);
+                        parents.put(connectingNode, new ArrayList<>());
+                        parents.get(connectingNode).add(successorParent);
+                        System.out.println(connectingNode.getName() + " ADDED: " + curNodeToCheck.getName());
 
-                        parents.put(connectingNode, new ParentNodeRecord(curNodeToCheck, i));
+                        System.out.println("\n\n\n\n");
+                        System.out.println(parents.containsKey(getNodesWithName("NorthStation")));
+
+                    } else {
+                        int successorDepth = nodeDepths.get(connectingNode);
+
+                        if (nodeDepths.get(curNodeToCheck) == successorDepth -1) {
+
+
+///TODO
+                            ParentNodeRecord successorParent = new ParentNodeRecord(curNodeToCheck, i);
+                            System.out.println("Second route found  " + connectingNode.getName() + "   " +  successorParent.getParent().getName());
+                            parents.get(connectingNode).add(successorParent);
+                        }
                     }
-
                 }
+
+            }
+        }
+
+        List<IEdge> edgeSequence = new ArrayList<>();
+        System.out.println("\n\n\n\n");
+        System.out.println(parents.containsKey(node2));
+
+        INode destination = node2;
+
+        String optimalEdgeLabel = parents.get(destination).get(0).getEdge().getLabel();
+
+
+
+        for (ParentNodeRecord i : parents.get(destination)) {
+            if (parents.containsKey(i.getParent())) {
+                for (ParentNodeRecord j : parents.get(i.getParent())) {
+                    if (j.getEdge().getLabel().equals(i.getEdge().getLabel())) {
+                        optimalEdgeLabel = j.getEdge().getLabel();
+                    }
+                }
+            }
+        }
+
+        destination = node2;
+        while (node1.getId() != destination.getId()) {
+            boolean optimalFound = false;
+            for (ParentNodeRecord i : parents.get(destination)) {
+                if (i.getEdge().getLabel().equals(optimalEdgeLabel)) {
+                    edgeSequence.add(0, i.getEdge());
+                    destination = i.getParent();
+                    optimalFound = true;
+                    break;
+                }
+            }
+            if (!optimalFound) {
+                System.out.println("NO OPTIMUS");
+                if (parents.containsKey(destination)) {
+
+
+                    optimalEdgeLabel = parents.get(destination).get(0).getEdge().getLabel();
+
+
+                    for (ParentNodeRecord i : parents.get(destination)) {
+                        if (parents.containsKey(i.getParent())) {
+                            for (ParentNodeRecord j : parents.get(i.getParent())) {
+                                if (j.getEdge().getLabel().equals(i.getEdge().getLabel())) {
+                                    optimalEdgeLabel = j.getEdge().getLabel();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (parents.containsKey(destination)) {
+                System.out.println(destination.getName()    + parents.get(destination).size());
             }
 
 
         }
-
-
-        List<IEdge> edgeSequence = new ArrayList<>();
-
-
-        while (node1.getId() != destination.getId()) {
-            ParentNodeRecord curDestinationRecord = parents.get(destination);
-            edgeSequence.add(0, curDestinationRecord.getEdge());
-            destination = curDestinationRecord.getParent();
-        }
-
 
         return edgeSequence;
     }
