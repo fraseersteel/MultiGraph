@@ -7,4 +7,5 @@ public interface INode<N> {
 
     int getId();
     String getName();
+    void setName(String name);
 }

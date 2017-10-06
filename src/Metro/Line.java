@@ -38,7 +38,7 @@ public class Line implements IEdge {
 
 
     @Override
-    public INode getOtherNode(int ID) {
+    public Station getOtherNode(int ID) {
         if(node1.getId() == ID){
             return node2;
         }

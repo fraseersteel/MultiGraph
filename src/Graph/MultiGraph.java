@@ -57,16 +57,15 @@ public class MultiGraph implements IMultigraph {
     /* TODO consider removal
     *
      */
-    @Override
-    public List<INode> getNodeList() {
-        ArrayList<INode> nodeList = new ArrayList<>();
-        nodeList.addAll(nodeSet);
-
-        return nodeList;
-    }
+//    @Override
+//    public List<INode> getNodeList() {
+//        ArrayList<INode> nodeList = new ArrayList<>();
+//        nodeList.addAll(nodeSet);
+//
+//        return nodeList;
+//    }
 
     public List<IEdge> getRoute(INode node1, INode node2) {
-        System.out.println("got 3 (in MultiGraph)");
         INode destination = node2;
 
         List<INode> visited = new ArrayList<>();
@@ -119,19 +118,18 @@ public class MultiGraph implements IMultigraph {
         return edgeSequence;
     }
 
-    @Override
-    public Set<INode> getNodeSet() {
-        HashSet<INode> copySet = new HashSet<>();
-        copySet.addAll(nodeSet);
-        return copySet;
-    }
+//    @Override
+//    public Set<INode> getNodeSet() {
+//        HashSet<INode> copySet = new HashSet<>();
+//        copySet.addAll(nodeSet);
+//        return copySet;
+//    }
 
     @Override
     /* Returns the node object which contains the same ID as the ID specified.
     * If no matching ID, returns null
      */
     public INode getNode(int ID) {
-
 
         for (INode i : nodeSet) {
             if (i.getId() == ID) {
@@ -163,12 +161,10 @@ public class MultiGraph implements IMultigraph {
 
     private Boolean checkEdgeExists(IEdge edge) {
         for (IEdge i : edgeList) {
-            if (i.getLabel().equals(edge.getLabel())) {
-                if (i.getNode1().getId() == edge.getNode1().getId()) {
-                    if (i.getNode2().getId() == edge.getNode2().getId()) {
-                        return false;
-                    }
-                }
+            if (i.getLabel().equals(edge.getLabel())
+                    && i.getNode1().getId() == edge.getNode1().getId()
+                    && i.getNode2().getId() == edge.getNode2().getId()) {
+                return false;
             }
         }
         return false;

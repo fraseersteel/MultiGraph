@@ -27,9 +27,6 @@ public interface IMultigraph {
 
     List<INode> getNodesWithName(String name);
 
-
-    List<INode> getNodeList();
-    Set<INode> getNodeSet();
     INode getNode(int ID);
     List<IEdge> successors(INode node);
 }

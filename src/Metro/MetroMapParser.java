@@ -1,4 +1,4 @@
-package Control;
+package Metro;
 
         import Exceptions.BadFileException;
         import Graph.IMultigraph;
@@ -57,39 +57,11 @@ package Control;
 
     private BufferedReader fileInput;
 
-
-//    public static void main(String[] args)
-//    {
-//
-//        if(args.length != 1)
-//        {
-//            usage();
-//            System.exit(0);
-//        }
-//
-//        String filename = args[0];
-//
-//
-//        try
-//        {
-//            MetroMapParser mmp = new MetroMapParser(filename);
-//            mmp.generateGraphFromFile();
-//        }
-//        catch(Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//    }
-
-
     private static void usage()
     {
         //prints a usage message to System.out
         System.out.println("java ex3.MetroMapParser <filename>");
     }
-
-
-
 
     /**
      * @effects: creates a new parser that will read from the file
@@ -128,10 +100,10 @@ package Control;
 
         String line = fileInput.readLine();
         StringTokenizer st;
-        String stationID;
+        int stationID;
         String stationName;
         String lineName;
-        String outboundID, inboundID;
+        int outboundID, inboundID;
 
         while(line != null)
         {
@@ -158,7 +130,7 @@ package Control;
             }
 
             //from the grammar, we know that the Station ID is the first token on the line
-            stationID = st.nextToken();
+            stationID = Integer.parseInt(st.nextToken());
 
             if(!st.hasMoreTokens())
             {
@@ -172,13 +144,11 @@ package Control;
             {
                 throw new BadFileException("station is on no lines");
             }
-//            System.out.println("Station: " + stationID + "-" + stationName);
 
-
-            Station thisStation = new Station(Integer.parseInt(stationID), stationName);
+            Station thisStation = new Station(stationID, stationName);
 
             if(!graph.addNode(thisStation)) {
-                ((Station)graph.getNode(Integer.parseInt(stationID))).setName(stationName);
+                (graph.getNode(stationID)).setName(stationName);
             }
 
             while(st.hasMoreTokens())
@@ -190,43 +160,27 @@ package Control;
                     throw new BadFileException("poorly formatted line info");
                 }
 
-                outboundID = st.nextToken();
-
-                Integer outbound = Integer.parseInt(outboundID);
+                outboundID = Integer.parseInt(st.nextToken());
 
                 if(!st.hasMoreTokens())
                 {
                     throw new BadFileException("poorly formatted adjacent stations");
                 }
 
-                inboundID = st.nextToken();
-                Integer inbound = Integer.parseInt(inboundID);
+                inboundID = Integer.parseInt(st.nextToken());
 
-//                System.out.println("Edge: " + outboundID + "-" + lineName + "-" + stationID);
-//                System.out.println("Edge: " + stationID + "-" + lineName + "-" + inboundID);
-
-
-                if(!outboundID.equals("0")){
-                    if(graph.getNode(outbound) == null){
-                        Station newStation = new Station(outbound);
-                        graph.addNode(newStation);
-                    }
-                    Line line1 = new Line(lineName,(Station)graph.getNode(outbound),thisStation);
-                    graph.addEdge(line1);
+                if(outboundID > 0){
+                    Station node = createStationIfNotPresent(outboundID, graph);
+                    Line edge1 = new Line(lineName, node, thisStation);
+                    graph.addEdge(edge1);
                 }
 
-
-                if(!inboundID.equals("0")){
-                    if(graph.getNode(inbound) == null){
-                        Station newStation = new Station(inbound);
-                        graph.addNode(newStation);
-                    }
-                    Line line1 = new Line(lineName,(Station)graph.getNode(inbound),thisStation);
-                    graph.addEdge(line1);
+                if(inboundID > 0){
+                    Station node = createStationIfNotPresent(inboundID, graph);
+                    Line edge1 = new Line(lineName, node, thisStation);
+                    graph.addEdge(edge1);
                 }
-
             }
-
 
             line = fileInput.readLine();
         }
@@ -234,7 +188,14 @@ package Control;
         return graph;
     }
 
-
+    private Station createStationIfNotPresent(int id, IMultigraph graph){
+        Station node = (Station)graph.getNode(id);
+        if(node == null){
+            node = new Station(id);
+            graph.addNode(node);
+        }
+        return node;
+    }
 }
 
 

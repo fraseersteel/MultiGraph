@@ -1,10 +1,7 @@
 package View;
 
-import Control.Controller;
 import Graph.IEdge;
 import Graph.INode;
-import Metro.Line;
-import Metro.Station;
 
 import java.util.List;
 import java.util.Scanner;
@@ -23,7 +20,6 @@ public class ConsoleIO {
     }
 
     public void printRoute(List<? extends IEdge> edges, int startId, int endId){
-        System.out.println("got 6 (in ConsoleIO)");
         if(!edges.isEmpty()){
 
             System.out.println("--- Your Journey plan ---");
