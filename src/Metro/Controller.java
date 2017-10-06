@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public class Controller {
 
     private IMultigraph graph;
@@ -66,6 +67,7 @@ public class Controller {
             input = consoleIO.prompt(message);
             input =  Character.toString(input.charAt(0)).toUpperCase()+input.substring(1);
             input = input.replaceAll("\\s","");
+           
 
             List<INode> stations = graph.getNodesWithName(input);
 

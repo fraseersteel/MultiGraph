@@ -21,16 +21,16 @@ public class ConsoleIO {
 
     public void printRoute(List<? extends IEdge> edges, int startId, int endId){
         if(!edges.isEmpty()){
-
+            System.out.println();
             System.out.println("--- Your Journey plan ---");
             System.out.println();
-            System.out.print("Starting from ");
+            System.out.print(" - Starting from ");
             printStationDetails(edges.get(0), startId);
             printDirectionOfTravel(startId, edges.get(0));
 
             formatRouteList(edges);
 
-            System.out.print("Until you reach your destination ");
+            System.out.print(" - Until you reach your destination ");
             printStationDetails(edges.get(edges.size() - 1), endId);
         }else{
             System.out.println("No Route Found.");
@@ -82,11 +82,11 @@ public class ConsoleIO {
     }
 
     private void printDirectionOfTravel(int startId, IEdge edge){
-        System.out.print("In the direction of '" + edge.getOtherNode(startId) + "' ");
+        System.out.print(" - In the direction of '" + edge.getOtherNode(startId) + "' ");
     }
 
     private void printLineChange(INode node, IEdge edge){
-        System.out.println("When you reach Station '" + node + "' change to the '" + edge.getLabel() + "' line.");
+        System.out.println(" - When you reach Station '" + node + "' change to the '" + edge.getLabel() + "' line.");
     }
 
     private void printStationDetails(IEdge edge, int nodeId){
