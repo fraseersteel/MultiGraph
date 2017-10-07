@@ -134,23 +134,7 @@ public class MultiGraph implements IMultigraph {
 
         return edgeSequence;
     }
-
-    @Override
-    /* Returns the node object which contains the same ID as the ID specified.
-    * If no matching ID, returns null
-     */
-    public INode getNode(int ID) {
-
-        for (INode i : nodeSet) {
-            if (i.getId() == ID) {
-
-                return i;
-            }
-        }
-
-        return null;
-    }
-
+    
     @Override
     public List<? extends IEdge> successors(INode node) {
         if (node == null) {
