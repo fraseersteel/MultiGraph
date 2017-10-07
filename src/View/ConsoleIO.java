@@ -13,6 +13,10 @@ public class ConsoleIO {
         System.out.println("Welcome to the Boston Metro!");
     }
 
+    /**
+     * @requires message != null
+     * @effects prompts the user with the given message and reads in and returns the reply
+     */
     public String prompt(String message){
 
         Scanner sc = new Scanner(System.in);
@@ -20,7 +24,10 @@ public class ConsoleIO {
         return sc.nextLine();
     }
 
-    //prints the whole route using different methods from below.
+    /**
+     * @requires edges != null, startId must be a valid Id for a node on the starting edge in edges, same for endId but for the last edge in edges
+     * @effects Prints the route of edges in a readable way if non-empty otherwise displays error message to user
+     */
     public void printRoute(List<? extends IEdge> edges, int startId, int endId){
         if(!edges.isEmpty()){
 
@@ -40,6 +47,10 @@ public class ConsoleIO {
         System.out.println();
     }
 
+    /**
+     * @requires edges != null && edges isn't empty
+     * @effects prints the list of Iedges in a formatted, readable way
+     */
     private void formatRouteList(List<? extends IEdge> edges){
         IEdge currentEdge = edges.get(0);
         String previousLine = currentEdge.getLabel();
@@ -74,7 +85,10 @@ public class ConsoleIO {
         printNumberOfStops(previousLine, stationCount);
     }
 
-    //prints number of stops the user will pass before reaching the next key station for either destination or change of line.
+    /**
+     * @requires previousLine to not be null, count to be positive
+     * @effects prints out the line and number of stops
+     */
     private void printNumberOfStops(String previousLine, int count){
         System.out.print(", Travel on the '" + previousLine + "' line for " + count);
         if(count<2){
@@ -84,7 +98,10 @@ public class ConsoleIO {
         }
     }
 
-    //prints the station that the users is interested in when comparing two nodes
+    /**
+     * @requires edge to be not null and nodeId to be a valid id from a node on param edge
+     * @effects prints the details of the node with Id nodeId
+     */
     private void printNodeDetails(IEdge edge, int nodeId){
         if(edge.getNode1().getId() == nodeId){
             System.out.println(edge.getNode1().getName());
@@ -93,6 +110,9 @@ public class ConsoleIO {
         }
     }
 
+    /**
+     * @effects prints all elements of a collection
+     */
     public void printCollection(Collection<?> collection){
         collection.stream().forEach(s -> System.out.println(" - '" + s + "'"));
     }
