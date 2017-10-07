@@ -22,6 +22,7 @@ public class Controller {
         consoleIO = new ConsoleIO();
     }
 
+    //method used to start the application and print instructions
     public void run(){
         printUserCommands();
         INode startingStation;
@@ -54,12 +55,13 @@ public class Controller {
         System.out.println();
         System.out.println("Thank you for using Boston Metro!");
     }
-
+//prints the exit command
     private void printUserCommands(){
         System.out.println();
         System.out.println("Type 'exit' at anytime to quit.");
     }
 
+    //validates the input and deals with it accordingly
     private INode validateInputStation(String message){
         String input = "-1";
         while(true){
@@ -67,7 +69,7 @@ public class Controller {
             input = consoleIO.prompt(message);
             input =  Character.toString(input.charAt(0)).toUpperCase()+input.substring(1);
             input = input.replaceAll("\\s","");
-           
+
 
             List<INode> stations = graph.getNodesWithName(input);
 
@@ -93,6 +95,7 @@ public class Controller {
         }
     }
 
+    //error message if the station input is not recognised
     private void manageStationNotValid(String input){
 
         System.out.println("That doesn't seem to be a station name we recognise.");
@@ -109,6 +112,7 @@ public class Controller {
         System.out.println();
     }
 
+    //error message if there is two duplication stations within the graph
     private int manageDuplicateStations(List<INode> stations){
 
         List<IEdge> stationLines;

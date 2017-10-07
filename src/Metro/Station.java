@@ -18,6 +18,7 @@ public class Station implements INode {
         this.id = id;
         name = "";
     }
+    //returns the ID of the node
     @Override
     public int getId() {
         return id;

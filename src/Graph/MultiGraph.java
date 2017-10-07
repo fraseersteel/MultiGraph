@@ -17,7 +17,7 @@ public class MultiGraph implements IMultigraph {
         edgeList = new ArrayList<>();
     }
 
-
+//adds an available node
     @Override
     public boolean addNode(INode node) {
         for (INode i : nodeSet) {
@@ -29,6 +29,7 @@ public class MultiGraph implements IMultigraph {
         return (nodeSet.add(node));
     }
 
+    //adds an edge to a node
     @Override
     public boolean addEdge(IEdge edge) {
         if (checkEdgeExists(edge)) {
@@ -40,7 +41,7 @@ public class MultiGraph implements IMultigraph {
         return true;
     }
 
-
+//returns the nodes with the given string name
     @Override
     public List<INode> getNodesWithName(String name) {
         ArrayList<INode> matchingNodes = new ArrayList<>();
@@ -57,6 +58,8 @@ public class MultiGraph implements IMultigraph {
     /* TODO consider removal
     *
      */
+
+    //returns a list of all nodes
     @Override
     public List<INode> getNodes() {
         ArrayList<INode> nodeList = new ArrayList<>();
@@ -64,6 +67,7 @@ public class MultiGraph implements IMultigraph {
 
         return nodeList;
     }
+
 
     public List<IEdge> getRoute(INode node1, INode node2) {
 
@@ -250,6 +254,7 @@ System.out.println();
         return successorList;
     }
 
+    //checks if a edge exists between two nodes
     private Boolean checkEdgeExists(IEdge edge) {
         for (IEdge i : edgeList) {
             if (i.getLabel().equals(edge.getLabel())

@@ -188,6 +188,7 @@ package Metro;
         return graph;
     }
 
+    //creates a node on the graph if it is not already present
     private Station createStationIfNotPresent(int id, IMultigraph graph){
         Station node = (Station)graph.getNode(id);
         if(node == null){

@@ -19,6 +19,7 @@ public class ConsoleIO {
         return sc.nextLine();
     }
 
+    //prints the whole route using different methods from below.
     public void printRoute(List<? extends IEdge> edges, int startId, int endId){
         if(!edges.isEmpty()){
             System.out.println();
@@ -37,6 +38,7 @@ public class ConsoleIO {
         }
         System.out.println();
     }
+
 
     private void formatRouteList(List<? extends IEdge> edges){
         IEdge currentEdge = edges.get(0);
@@ -72,6 +74,7 @@ public class ConsoleIO {
         printNumberOfStops(previousLine, stationCount);
     }
 
+    //prints number of stops the user will pass before reaching the next key station for either destination or change of line.
     private void printNumberOfStops(String previousLine, int count){
         System.out.print(", Travel on the '" + previousLine + "' line for " + count);
         if(count<2){
@@ -81,14 +84,18 @@ public class ConsoleIO {
         }
     }
 
+    //Prints the direction of travel required when changing at a connecting station
     private void printDirectionOfTravel(int startId, IEdge edge){
         System.out.print(" - In the direction of '" + edge.getOtherNode(startId) + "' ");
     }
 
+    //prints the change of line required to reach the destination
     private void printLineChange(INode node, IEdge edge){
         System.out.println(" - When you reach Station '" + node + "' change to the '" + edge.getLabel() + "' line.");
     }
 
+
+    //prints the station that the users is interested in when comparing two nodes
     private void printStationDetails(IEdge edge, int nodeId){
         if(edge.getNode1().getId() == nodeId){
             System.out.println(edge.getNode1());
