@@ -64,6 +64,9 @@ public class MultiGraph implements IMultigraph {
         return matchingNodes;
     }
 
+    /* TODO consider removal
+    *
+     */
     @Override
     public List<? extends INode> getNodes() {
         ArrayList<INode> nodeList = new ArrayList<>();
@@ -72,7 +75,6 @@ public class MultiGraph implements IMultigraph {
         return nodeList;
     }
 
-    @Override
     public List<? extends IEdge> getRoute(INode start, INode target) {
         if (start == null || target == null) {
             throw new IllegalArgumentException("null values are not considered to be Nodes.");
@@ -88,7 +90,7 @@ public class MultiGraph implements IMultigraph {
         List<INode> visited = new ArrayList<>();
         LinkedList<INode> queue = new LinkedList<>();
 
-        HashMap<Integer, ParentNodeRecord> parents = new HashMap<>();
+        HashMap<INode, ParentNodeRecord> parents = new HashMap<>();
 
         visited.add(start);
         queue.add(start);
@@ -110,9 +112,9 @@ public class MultiGraph implements IMultigraph {
                     visited.add(connectingNode);
 
 
-                    if (!parents.containsKey(connectingNode.getId())) {
+                    if (!parents.containsKey(connectingNode)) {
 
-                        parents.put(connectingNode.getId(), new ParentNodeRecord(curNodeToCheck, i));
+                        parents.put(connectingNode, new ParentNodeRecord(curNodeToCheck, i));
                     }
 
                 }
@@ -126,7 +128,7 @@ public class MultiGraph implements IMultigraph {
 
 
         while (start.getId() != destination.getId()) {
-            ParentNodeRecord curDestinationRecord = parents.get(destination.getId());
+            ParentNodeRecord curDestinationRecord = parents.get(destination);
             edgeSequence.add(0, curDestinationRecord.getEdge());
             destination = curDestinationRecord.getParent();
         }
@@ -134,8 +136,24 @@ public class MultiGraph implements IMultigraph {
 
         return edgeSequence;
     }
-    
+
     @Override
+    /* Returns the node object which contains the same ID as the ID specified.
+    * If no matching ID, returns null
+     */
+    public INode getNode(int ID) {
+
+        for (INode i : nodeSet) {
+            if (i.getId() == ID) {
+
+                return i;
+            }
+        }
+
+        return null;
+    }
+
+
     public List<? extends IEdge> successors(INode node) {
         if (node == null) {
             throw new IllegalArgumentException("null values are not considered to be Nodes.");
@@ -169,6 +187,7 @@ public class MultiGraph implements IMultigraph {
         }
         return false;
     }
+
 
     class ParentNodeRecord {
         private INode parent;

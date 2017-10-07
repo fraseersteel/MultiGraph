@@ -55,6 +55,15 @@ public interface IMultigraph {
 
 
     /**
+     * Returns the INode which has the same ID as specified by the ID parameter.
+     *
+     * @param ID (int) The ID for which the multigraph will return all matching INodes for.
+     * @return A List containing references to the INodes with names matching the name parameter.
+     */
+    INode getNode(int ID);
+
+
+    /**
      * Returns a java.util.List containing references to the IEdge(s) which contain the specified INode.
      * Will return an empty list if no corresponding IEdges are found.
      *
