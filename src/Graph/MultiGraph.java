@@ -17,7 +17,7 @@ public class MultiGraph implements IMultigraph {
     private Set<INode> nodeSet;
 
     /**
-     * Initialises internal data used for storing multigraph information.
+     * Effects: Initialises internal data used for storing multigraph information.
      */
     public MultiGraph() {
         nodeSet = new HashSet<>();
@@ -255,6 +255,8 @@ public class MultiGraph implements IMultigraph {
         private IEdge edge;
 
         /**
+         * Effects: Initialises internal data used for storing INode parent information.
+         *
          * @param parent (INode) The parent of the INode that the instance of this class will represent.
          * @param edge   (IEdge) The edge that connects to the parent of the INode that the instance of this class will represent.
          */
@@ -264,7 +266,7 @@ public class MultiGraph implements IMultigraph {
         }
 
         /**
-         * This method will return the INode that is the parent of the INode that this class represents.
+         * Effects: This method will return the INode that is the parent of the INode that this class represents.
          *
          * @return INode which is the parent of the INode that this class represents.
          */
@@ -273,7 +275,7 @@ public class MultiGraph implements IMultigraph {
         }
 
         /**
-         * This method will return the IEDge that connects to the parent of the INode that this class represents.
+         * Effects: This method will return the IEDge that connects to the parent of the INode that this class represents.
          *
          * @return IEdge which connects to the parent of the INode that this class represents.
          */
