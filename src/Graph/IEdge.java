@@ -34,7 +34,7 @@ public interface IEdge {
      * the connecting INode's reference.
      *
      * @param ID the int of which to search for a corresponding INode to.
-     * @return Returns the INode to which the INode with matching ID is paired to.
+     * @return Returns the INode to which the INode with matching ID is connected to.
      */
     INode getOtherNode(int ID);
 
