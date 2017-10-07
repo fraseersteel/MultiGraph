@@ -1,32 +1,80 @@
 
+
 package Graph;
 
 import java.util.List;
-import java.util.Set;
 
+/**
+ * This interface represents a multigraph. The multigraph consists of a set of INodes (each with a unique ID),
+ * and IEdges between the contained INodes.
+ */
 public interface IMultigraph {
 
-    /** Attempts to add an implementation of INode to the collection of INodes that implementations of this
-     * interface would keep. The INode is added to the collection if there is no other instance of the Node
-     * currently stored, and if no currently stored Node shares the same ID.
+    /**
+     * Attempts to add the node parameter to the multigraph's collection of INodes.
+     * The node will be added only if there is no existing INode with the same ID.
+     * <br>
+     * modifies:this
      *
-     * Returns true if the node was added, otherwise false.*/
+     * @param node (INode) The INode which the multigraph will attempt to add. Must not be null.
+     * @return true if node was successfully added; otherwise false.
+     * @throws IllegalArgumentException If node paramter is null.
+     */
     boolean addNode(INode node);
 
-    /** Attempts to add an implementation of IEdge to the collection of IEdges that implementations of this
-     * interface would keep.
+
+    /**
+     * Attempts to add the edge parameter to the multigraph's collection of IEdges.
+     * The edge will be added only if there is no existing IEdge between the two specifeid nodes with the same label.
+     * <br>
+     * modifies:this
      *
-     * Returns true if the node was added, otherwise false.*/
+     * @param edge (IEdge) The IEdge which the multigraph will attempt to add. Must not be null.
+     * @return true if edge was successfully added; otherwise false.
+     * @throws IllegalArgumentException If edge paramter is null.
+     */
     boolean addEdge(IEdge edge);
 
-    /** Finds a path from the first provided node, to the second provided node, within the multigraph.
+
+    /**
+     * Returns a java.util.List containing references to the INode(s) stored within the multigraph.
      *
-     * Returns an implementation of java.util.List which contains implementations of IEdges. The list, starting from
-     * index 0, will contain the first line, and consecutively move along the path. */
-    List<? extends IEdge> getRoute(INode node1, INode node2);
+     * @return A List containing references to the INode(s) stored within the multigraph.
+     */
     List<? extends INode> getNodes();
+
+
+    /**
+     * Returns a java.util.List containing references to the INode(s) which have the same name as specified by the name
+     * parameter. Will return an empty list if no matching nodes are found.
+     *
+     * @param name (String) The name for which the multigraph will return all matching INodes for.
+     * @return A List containing references to any INodes with names matching the name parameter.
+     */
     List<? extends INode> getNodesWithName(String name);
 
-    INode getNode(int ID);
+
+    /**
+     * Returns a java.util.List containing references to the IEdge(s) which contain the specified INode.
+     * Will return an empty list if no corresponding IEdges are found.
+     *
+     * @param node (INode) The INode for which the graph will return all edges that contain said INode.
+     * @return A List containing references to any IEdges which contain the node specified by the node parameter.
+     * @throws IllegalArgumentException If node paramter is null.
+     */
     List<? extends IEdge> successors(INode node);
+
+
+    /**
+     * Attempts to find and return a path of IEdges from the first provided INode (start parameter) to the second INode
+     * (target parameter). If no path exists, or the start is the same as the target, an empty list will be returned.
+     * The path found will contain the least number of IEdges possible. The List returned will have the IEdge from start
+     * being at index 0, and IEdge going into target being at path size -1.
+     *
+     * @param start  (INode) The INode which the multigraph will attempt to find a route from. Must not be null.
+     * @param target (INode) The INode which the multigraph will attempt to find a route to. Must not be null.
+     * @return A List containing references to the IEdges in sequence of the path found from start to target.
+     * @throws IllegalArgumentException If either start or target paramters are null.
+     */
+    List<? extends IEdge> getRoute(INode start, INode target);
 }
