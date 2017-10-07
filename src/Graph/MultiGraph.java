@@ -20,6 +20,9 @@ public class MultiGraph implements IMultigraph {
 
     @Override
     public boolean addNode(INode node) {
+        if (node == null) {
+            throw new IllegalArgumentException("null values are not considered to be Nodes.");
+        }
         for (INode i : nodeSet) {
             if (i.getId() == node.getId()) {
                 return false;
@@ -31,6 +34,10 @@ public class MultiGraph implements IMultigraph {
 
     @Override
     public boolean addEdge(IEdge edge) {
+        if (edge == null) {
+            throw new IllegalArgumentException("null values are not considered to be Edges.");
+        }
+
         if (checkEdgeExists(edge)) {
             return false;
         }
@@ -43,6 +50,9 @@ public class MultiGraph implements IMultigraph {
 
     @Override
     public List<? extends INode> getNodesWithName(String name) {
+        if (name == null) {
+            return (new ArrayList<>());
+        }
         ArrayList<INode> matchingNodes = new ArrayList<>();
 
         for (INode i : nodeSet) {
@@ -65,20 +75,29 @@ public class MultiGraph implements IMultigraph {
         return nodeList;
     }
 
-    public List<? extends IEdge> getRoute(INode node1, INode node2) {
-        INode destination = node2;
+    public List<? extends IEdge> getRoute(INode start, INode target) {
+        if (start == null || target == null) {
+            throw new IllegalArgumentException("null values are not considered to be Nodes.");
+        }
+
+
+        if (!nodeSet.contains(start) || !nodeSet.contains(target)) {
+            return new ArrayList<>();
+        }
+
+        INode destination = target;
 
         List<INode> visited = new ArrayList<>();
         LinkedList<INode> queue = new LinkedList<>();
 
         HashMap<INode, ParentNodeRecord> parents = new HashMap<>();
 
-        visited.add(node1);
-        queue.add(node1);
+        visited.add(start);
+        queue.add(start);
         while (!queue.isEmpty()) {
             INode curNodeToCheck = queue.poll();
 
-            if (curNodeToCheck.getId() == node2.getId()) {
+            if (curNodeToCheck.getId() == target.getId()) {
                 break;
             }
 
@@ -108,7 +127,7 @@ public class MultiGraph implements IMultigraph {
         List<IEdge> edgeSequence = new ArrayList<>();
 
 
-        while (node1.getId() != destination.getId()) {
+        while (start.getId() != destination.getId()) {
             ParentNodeRecord curDestinationRecord = parents.get(destination);
             edgeSequence.add(0, curDestinationRecord.getEdge());
             destination = curDestinationRecord.getParent();
@@ -136,6 +155,9 @@ public class MultiGraph implements IMultigraph {
 
 
     public List<? extends IEdge> successors(INode node) {
+        if (node == null) {
+            throw new IllegalArgumentException("null values are not considered to be Nodes.");
+        }
         ArrayList<IEdge> successorList = new ArrayList<>();
         int sourceID = node.getId();
 
@@ -153,6 +175,10 @@ public class MultiGraph implements IMultigraph {
     }
 
     private Boolean checkEdgeExists(IEdge edge) {
+        if (edge == null) {
+            throw new IllegalArgumentException("null values are not considered to be Edges.");
+        }
+
         for (IEdge i : edgeList) {
             if (i.getLabel().equals(edge.getLabel())
                     && (i.getNode1().getId() == edge.getNode1().getId() || i.getNode1().getId() == edge.getNode2().getId())
