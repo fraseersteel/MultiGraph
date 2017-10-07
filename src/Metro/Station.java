@@ -18,21 +18,18 @@ public class Station implements INode {
         this.id = id;
         name = "";
     }
-    //returns the ID of the node
+
     @Override
     public int getId() {
         return id;
     }
 
     @Override
-    public String toString() {
-        return name;
-    }
-    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }

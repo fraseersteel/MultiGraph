@@ -42,7 +42,7 @@ public class MultiGraph implements IMultigraph {
 
 
     @Override
-    public List<INode> getNodesWithName(String name) {
+    public List<? extends INode> getNodesWithName(String name) {
         ArrayList<INode> matchingNodes = new ArrayList<>();
 
         for (INode i : nodeSet) {
@@ -58,14 +58,14 @@ public class MultiGraph implements IMultigraph {
     *
      */
     @Override
-    public List<INode> getNodes() {
+    public List<? extends INode> getNodes() {
         ArrayList<INode> nodeList = new ArrayList<>();
         nodeList.addAll(nodeSet);
 
         return nodeList;
     }
 
-    public List<IEdge> getRoute(INode node1, INode node2) {
+    public List<? extends IEdge> getRoute(INode node1, INode node2) {
         INode destination = node2;
 
         List<INode> visited = new ArrayList<>();
@@ -82,7 +82,7 @@ public class MultiGraph implements IMultigraph {
                 break;
             }
 
-            List<IEdge> successors = successors(curNodeToCheck);
+            List<? extends IEdge> successors = successors(curNodeToCheck);
 
 
             for (IEdge i : successors) {
@@ -118,13 +118,6 @@ public class MultiGraph implements IMultigraph {
         return edgeSequence;
     }
 
-//    @Override
-//    public Set<INode> getNodeSet() {
-//        HashSet<INode> copySet = new HashSet<>();
-//        copySet.addAll(nodeSet);
-//        return copySet;
-//    }
-
     @Override
     /* Returns the node object which contains the same ID as the ID specified.
     * If no matching ID, returns null
@@ -142,7 +135,7 @@ public class MultiGraph implements IMultigraph {
     }
 
 
-    public List<IEdge> successors(INode node) {
+    public List<? extends IEdge> successors(INode node) {
         ArrayList<IEdge> successorList = new ArrayList<>();
         int sourceID = node.getId();
 
@@ -162,9 +155,9 @@ public class MultiGraph implements IMultigraph {
     private Boolean checkEdgeExists(IEdge edge) {
         for (IEdge i : edgeList) {
             if (i.getLabel().equals(edge.getLabel())
-                    && i.getNode1().getId() == edge.getNode1().getId()
-                    && i.getNode2().getId() == edge.getNode2().getId()) {
-                return false;
+                    && (i.getNode1().getId() == edge.getNode1().getId() || i.getNode1().getId() == edge.getNode2().getId())
+                    && (i.getNode2().getId() == edge.getNode1().getId() || i.getNode2().getId() == edge.getNode2().getId())) {
+                return true;
             }
         }
         return false;

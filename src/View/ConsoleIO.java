@@ -3,6 +3,7 @@ package View;
 import Graph.IEdge;
 import Graph.INode;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,23 +23,22 @@ public class ConsoleIO {
     //prints the whole route using different methods from below.
     public void printRoute(List<? extends IEdge> edges, int startId, int endId){
         if(!edges.isEmpty()){
-            System.out.println();
+
             System.out.println("--- Your Journey plan ---");
             System.out.println();
             System.out.print(" - Starting from ");
-            printStationDetails(edges.get(0), startId);
-            printDirectionOfTravel(startId, edges.get(0));
+            printNodeDetails(edges.get(0), startId);
+            System.out.print(" - In the direction of '" + edges.get(0).getOtherNode(startId).getName() + "' ");
 
             formatRouteList(edges);
 
             System.out.print(" - Until you reach your destination ");
-            printStationDetails(edges.get(edges.size() - 1), endId);
+            printNodeDetails(edges.get(edges.size() - 1), endId);
         }else{
             System.out.println("No Route Found.");
         }
         System.out.println();
     }
-
 
     private void formatRouteList(List<? extends IEdge> edges){
         IEdge currentEdge = edges.get(0);
@@ -62,8 +62,8 @@ public class ConsoleIO {
                 }
 
                 printNumberOfStops(previousLine, stationCount);
-                printLineChange(connectingNode, currentEdge);
-                printDirectionOfTravel(connectingNode.getId(), currentEdge);
+                System.out.println(" - When you reach Station '" + connectingNode.getName() + "' change to the '" + currentEdge.getLabel() + "' line.");
+                System.out.print(" - In the direction of '" + currentEdge.getOtherNode(connectingNode.getId()).getName() + "' ");
 
                 previousLine = currentEdge.getLabel();
                 stationCount = 0;
@@ -84,27 +84,16 @@ public class ConsoleIO {
         }
     }
 
-    //Prints the direction of travel required when changing at a connecting station
-    private void printDirectionOfTravel(int startId, IEdge edge){
-        System.out.print(" - In the direction of '" + edge.getOtherNode(startId) + "' ");
-    }
-
-    //prints the change of line required to reach the destination
-    private void printLineChange(INode node, IEdge edge){
-        System.out.println(" - When you reach Station '" + node + "' change to the '" + edge.getLabel() + "' line.");
-    }
-
-
     //prints the station that the users is interested in when comparing two nodes
-    private void printStationDetails(IEdge edge, int nodeId){
+    private void printNodeDetails(IEdge edge, int nodeId){
         if(edge.getNode1().getId() == nodeId){
-            System.out.println(edge.getNode1());
+            System.out.println(edge.getNode1().getName());
         }else{
-            System.out.println(edge.getNode2());
+            System.out.println(edge.getNode2().getName());
         }
     }
 
-    public void printList(List<?> list){
-        list.stream().forEach(s -> System.out.println(" - '" + s + "'"));
+    public void printCollection(Collection<?> collection){
+        collection.stream().forEach(s -> System.out.println(" - '" + s + "'"));
     }
 }

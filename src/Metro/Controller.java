@@ -1,14 +1,12 @@
 package Metro;
 
-import Graph.IEdge;
 import Graph.IMultigraph;
-import Graph.INode;
 import View.ConsoleIO;
 
-import javax.sound.midi.SysexMessage;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 
 
 public class Controller {
@@ -24,9 +22,9 @@ public class Controller {
 
     //method used to start the application and print instructions
     public void run(){
-        printUserCommands();
-        INode startingStation;
-        INode destinationStation;
+        System.out.println("Type 'exit' at anytime to quit.");
+        Station startingStation;
+        Station destinationStation;
 
         while(true){
 
@@ -46,7 +44,8 @@ public class Controller {
                 System.out.println("You are already at this location");
             }else {
                 consoleIO.printRoute(graph.getRoute(startingStation, destinationStation), startingStation.getId(), destinationStation.getId());
-                printUserCommands();
+
+                System.out.println("Type 'exit' at anytime to quit.");
                 System.out.println(" --- Next Route ---");
                 System.out.println();
             }
@@ -55,14 +54,9 @@ public class Controller {
         System.out.println();
         System.out.println("Thank you for using Boston Metro!");
     }
-//prints the exit command
-    private void printUserCommands(){
-        System.out.println();
-        System.out.println("Type 'exit' at anytime to quit.");
-    }
 
     //validates the input and deals with it accordingly
-    private INode validateInputStation(String message){
+    private Station validateInputStation(String message){
         String input = "-1";
         while(true){
 
@@ -71,7 +65,7 @@ public class Controller {
             input = input.replaceAll("\\s","");
 
 
-            List<INode> stations = graph.getNodesWithName(input);
+            List<Station> stations = (List<Station>) graph.getNodesWithName(input);
 
             if(input.toLowerCase().equals("exit")){
                 return null;
@@ -99,31 +93,31 @@ public class Controller {
     private void manageStationNotValid(String input){
 
         System.out.println("That doesn't seem to be a station name we recognise.");
-        List<INode> nodes = new ArrayList<>();
-        graph.getNodes().stream().filter(n -> n.getName().startsWith(input)).forEach(n -> nodes.add(n));
+        Set<String> nodes = new HashSet<>();
+        graph.getNodes().stream().filter(n -> n.getName().startsWith(input)).forEach(n -> nodes.add(n.getName()));
 
         if(nodes.size() == 1){
             System.out.println("You might have meant the following: ");
         }else if(nodes.size() > 0){
             System.out.println("You might have meant one of the following: ");
         }
-        consoleIO.printList(nodes);
+        consoleIO.printCollection(nodes);
         System.out.println("Make sure you have spelt the name correclty and try again.");
         System.out.println();
     }
 
     //error message if there is two duplication stations within the graph
-    private int manageDuplicateStations(List<INode> stations){
+    private int manageDuplicateStations(List<Station> stations){
 
-        List<IEdge> stationLines;
+        List<Line> stationLines;
         System.out.println();
         System.out.println("If the Station you meant is neighbours with:");
         for(int i = 0; i < stations.size(); i++){
-            INode currentStation = stations.get(i);
-            stationLines =  graph.successors(currentStation);
-            System.out.print("OPTION " + (i+1) + ": '" + stationLines.get(0).getOtherNode(currentStation.getId()) + "'");
+            Station currentStation = stations.get(i);
+            stationLines = (List<Line>) graph.successors(currentStation);
+            System.out.print(" " + (i+1) + " : '" + stationLines.get(0).getOtherNode(currentStation.getId()).getName() + "'");
             for(int j = 1; j < stationLines.size(); j++){
-                System.out.print(" and '" + stationLines.get(j).getOtherNode(currentStation.getId()) + "' ");
+                System.out.print(" and '" + stationLines.get(j).getOtherNode(currentStation.getId()).getName() + "' ");
             }
             System.out.println();
         }

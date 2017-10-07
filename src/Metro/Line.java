@@ -32,12 +32,6 @@ public class Line implements IEdge {
     }
 
     @Override
-    public String toString(){
-        return label;
-    }
-
-
-    @Override
     public Station getOtherNode(int ID) {
         if(node1.getId() == ID){
             return node2;
