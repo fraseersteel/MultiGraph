@@ -20,7 +20,9 @@ public class Controller {
         consoleIO = new ConsoleIO();
     }
 
-    //method used to start the application and print instructions
+    /**
+     * @effects prompts the user for station names and validates them, prints out route from one to the other if
+     */
     public void run(){
         System.out.println("Type 'exit' at anytime to quit.");
         Station startingStation;
@@ -41,7 +43,7 @@ public class Controller {
             }
 
             if(startingStation.getId() == destinationStation.getId()){
-                System.out.println("You are already at this location");
+                System.out.println("Hurray! You've made it to your destination. (Next time try picking two different stations)");
             }else {
                 consoleIO.printRoute(graph.getRoute(startingStation, destinationStation), startingStation.getId(), destinationStation.getId());
 
@@ -55,7 +57,10 @@ public class Controller {
         System.out.println("Thank you for using Boston Metro!");
     }
 
-    //validates the input and deals with it accordingly
+    /**
+     * @requires message != null
+     * @effects keeps prompting user with message until either input is a valid station name (then the station with that name is returned) or 'exit' is entered (and null is returned)
+     */
     private Station validateInputStation(String message){
         String input = "-1";
         while(true){
@@ -89,7 +94,10 @@ public class Controller {
         }
     }
 
-    //error message if the station input is not recognised
+    /**
+     * @requires name != null
+     * @effects notifies user input is not valid
+     */
     private void manageStationNotValid(String input){
 
         System.out.println("That doesn't seem to be a station name we recognise.");
@@ -106,7 +114,10 @@ public class Controller {
         System.out.println();
     }
 
-    //error message if there is two duplication stations within the graph
+    /**
+     * @requires stations.size() > 1
+     * @effects asks user to specify the station they meant, returns int of location in stations or -2 if the user meant none of the options
+     */
     private int manageDuplicateStations(List<Station> stations){
 
         List<Line> stationLines;
