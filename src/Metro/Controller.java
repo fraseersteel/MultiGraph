@@ -45,7 +45,7 @@ public class Controller {
             if(startingStation.getId() == destinationStation.getId()){
                 System.out.println("Hurray! You've made it to your destination. (Next time try picking two different stations)");
             }else {
-                consoleIO.printRoute(graph.getRoute(startingStation, destinationStation), startingStation.getId(), destinationStation.getId());
+                consoleIO.printRoute((List<Line>) graph.getRoute(startingStation, destinationStation), startingStation.getId(), destinationStation.getId());
 
                 System.out.println("Type 'exit' at anytime to quit.");
                 System.out.println(" --- Next Route ---");

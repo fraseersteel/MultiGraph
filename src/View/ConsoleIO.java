@@ -1,7 +1,7 @@
 package View;
 
-import Graph.IEdge;
-import Graph.INode;
+import Metro.Line;
+import Metro.Station;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,22 +25,22 @@ public class ConsoleIO {
     }
 
     /**
-     * @requires edges != null, startId must be a valid Id for a node on the starting edge in edges, same for endId but for the last edge in edges
-     * @effects Prints the route of edges in a readable way if non-empty otherwise displays error message to user
+     * @requires route != null, startId must be a valid Id for a station on the starting line in route, same for endId but for the last line in route
+     * @effects Prints the stages of route in a readable way if non-empty otherwise displays error message to user
      */
-    public void printRoute(List<? extends IEdge> edges, int startId, int endId){
-        if(!edges.isEmpty()){
+    public void printRoute(List<Line> route, int startId, int endId){
+        if(!route.isEmpty()){
 
             System.out.println("--- Your Journey plan ---");
             System.out.println();
             System.out.print(" - Starting from ");
-            printNodeDetails(edges.get(0), startId);
-            System.out.print(" - In the direction of '" + edges.get(0).getOtherNode(startId).getName() + "' ");
+            printStationDetails(route.get(0), startId);
+            System.out.print(" - In the direction of '" + route.get(0).getOtherNode(startId).getName() + "' ");
 
-            formatRouteList(edges);
+            formatRouteList(route);
 
             System.out.print(" - Until you reach your destination ");
-            printNodeDetails(edges.get(edges.size() - 1), endId);
+            printStationDetails(route.get(route.size() - 1), endId);
         }else{
             System.out.println("No Route Found.");
         }
@@ -48,41 +48,41 @@ public class ConsoleIO {
     }
 
     /**
-     * @requires edges != null && edges isn't empty
-     * @effects prints the list of Iedges in a formatted, readable way
+     * @requires route != null && route isn't empty
+     * @effects prints the list of Lines in a formatted, readable way
      */
-    private void formatRouteList(List<? extends IEdge> edges){
-        IEdge currentEdge = edges.get(0);
-        String previousLine = currentEdge.getLabel();
+    private void formatRouteList(List<Line> route){
+        Line currentLine = route.get(0);
+        String previousLineName = currentLine.getLabel();
 
-        IEdge previousEdge;
-        INode connectingNode;
+        Line previousLine;
+        Station connectingStation;
 
         int stationCount = 1;
-        for(int i = 1; i < edges.size(); i++){
+        for(int i = 1; i < route.size(); i++){
 
-            currentEdge = edges.get(i);
+            currentLine = route.get(i);
 
-            if(!previousLine.equals(currentEdge.getLabel())){
+            if(!previousLineName.equals(currentLine.getLabel())){
 
-                previousEdge = edges.get(i-1);
-                connectingNode = previousEdge.getNode1();
+                previousLine = route.get(i-1);
+                connectingStation = previousLine.getNode1();
 
-                if(connectingNode.getId() != currentEdge.getNode1().getId() && connectingNode.getId() != currentEdge.getNode2().getId()){
-                    connectingNode = previousEdge.getNode2();
+                if(connectingStation.getId() != currentLine.getNode1().getId() && connectingStation.getId() != currentLine.getNode2().getId()){
+                    connectingStation = previousLine.getNode2();
                 }
 
-                printNumberOfStops(previousLine, stationCount);
-                System.out.println(" - When you reach Station '" + connectingNode.getName() + "' change to the '" + currentEdge.getLabel() + "' line.");
-                System.out.print(" - In the direction of '" + currentEdge.getOtherNode(connectingNode.getId()).getName() + "' ");
+                printNumberOfStops(previousLineName, stationCount);
+                System.out.println(" - When you reach Station '" + connectingStation.getName() + "' change to the '" + currentLine.getLabel() + "' line.");
+                System.out.print(" - In the direction of '" + currentLine.getOtherNode(connectingStation.getId()).getName() + "' ");
 
-                previousLine = currentEdge.getLabel();
+                previousLineName = currentLine.getLabel();
                 stationCount = 0;
             }
             stationCount++;
         }
 
-        printNumberOfStops(previousLine, stationCount);
+        printNumberOfStops(previousLineName, stationCount);
     }
 
     /**
@@ -99,14 +99,14 @@ public class ConsoleIO {
     }
 
     /**
-     * @requires edge to be not null and nodeId to be a valid id from a node on param edge
-     * @effects prints the details of the node with Id nodeId
+     * @requires line to be not null and stationId to be a valid id from a station on param line
+     * @effects prints the details of the station with Id stationId
      */
-    private void printNodeDetails(IEdge edge, int nodeId){
-        if(edge.getNode1().getId() == nodeId){
-            System.out.println(edge.getNode1().getName());
+    private void printStationDetails(Line line, int stationId){
+        if(line.getNode1().getId() == stationId){
+            System.out.println(line.getNode1().getName());
         }else{
-            System.out.println(edge.getNode2().getName());
+            System.out.println(line.getNode2().getName());
         }
     }
 
