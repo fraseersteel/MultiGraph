@@ -45,16 +45,6 @@ public interface IMultigraph {
 
 
     /**
-     * Effects: Returns a java.util.List containing references to the INode(s) which have the same name as specified by the name
-     * parameter. Will return an empty list if no matching nodes are found.
-     *
-     * @param name (String) The name for which the multigraph will return all matching INodes for.
-     * @return A List containing references to any INodes with names matching the name parameter.
-     */
-    List<? extends INode> getNodesWithName(String name);
-
-
-    /**
      * Effects: Returns the INode which has the same ID as specified by the ID parameter.
      *
      * @param ID (int) The ID for which the multigraph will return all matching INodes for.

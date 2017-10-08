@@ -1,11 +1,6 @@
 package Graph;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * This class provides a concrete implementation of the IMultigraph interface. Thus allowing the user to represent
@@ -14,7 +9,7 @@ import java.util.HashMap;
 public class MultiGraph implements IMultigraph {
 
     private List<IEdge> edgeList;
-    private Set<INode> nodeSet;
+    private Map<Integer, INode> nodeMap;
 
     /**
      * Effects: Initialises internal data used for storing multigraph information.
@@ -22,7 +17,7 @@ public class MultiGraph implements IMultigraph {
      * modifies:this
      */
     public MultiGraph() {
-        nodeSet = new HashSet<>();
+        nodeMap = new HashMap<>();
         edgeList = new ArrayList<>();
     }
 
@@ -42,14 +37,11 @@ public class MultiGraph implements IMultigraph {
         if (node == null) {
             throw new IllegalArgumentException("null values are not considered to be Nodes.");
         }
-
-        for (INode i : nodeSet) {
-            if (i.getId() == node.getId()) {
-                return false;
-            }
+        if (nodeMap.containsKey(node.getId())) {
+            return false;
         }
-
-        return (nodeSet.add(node));
+        nodeMap.put(node.getId(), node);
+        return true;
     }
 
 
@@ -86,33 +78,9 @@ public class MultiGraph implements IMultigraph {
     @Override
     public List<? extends INode> getNodes() {
         ArrayList<INode> nodeList = new ArrayList<>();
-        nodeList.addAll(nodeSet);
+        nodeList.addAll(nodeMap.values());
 
         return nodeList;
-    }
-
-
-    /**
-     * Effects: Returns a java.util.List containing references to the INode(s) which have the same name as specified by the name
-     * parameter. Will return an empty list if no matching nodes are found.
-     *
-     * @param name (String) The name for which the multigraph will return all matching INodes for.
-     * @return A List containing references to any INodes with names matching the name parameter.
-     */
-    @Override
-    public List<? extends INode> getNodesWithName(String name) {
-        if (name == null) {
-            return (new ArrayList<>());
-        }
-        ArrayList<INode> matchingNodes = new ArrayList<>();
-
-        for (INode i : nodeSet) {
-            if (i.getName().equals(name)) {
-                matchingNodes.add(i);
-            }
-        }
-
-        return matchingNodes;
     }
 
 
@@ -124,12 +92,7 @@ public class MultiGraph implements IMultigraph {
      */
     @Override
     public INode getNode(int ID) {
-        for (INode i : nodeSet) {
-            if (i.getId() == ID) {
-                return i;
-            }
-        }
-        return null;
+        return nodeMap.get(ID);
     }
 
 
@@ -180,7 +143,7 @@ public class MultiGraph implements IMultigraph {
             throw new IllegalArgumentException("null values are not considered to be Nodes.");
         }
 
-        if (!nodeSet.contains(start) || !nodeSet.contains(target)) {
+        if (!nodeMap.containsKey(start.getId()) || !nodeMap.containsKey(target.getId())) {
             return new ArrayList<>();
         }
 

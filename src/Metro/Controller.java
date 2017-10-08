@@ -66,11 +66,14 @@ public class Controller {
         while(true){
 
             input = consoleIO.prompt(message);
+            if(input.trim().equals("")){
+                System.out.println("Empty String not allowed, enter a letter and press enter to see suggestions.");
+                continue;
+            }
             input =  Character.toString(input.charAt(0)).toUpperCase()+input.substring(1);
             input = input.replaceAll("\\s","");
 
-
-            List<Station> stations = (List<Station>) graph.getNodesWithName(input);
+            List<Station> stations = getStationsWithName(input);
 
             if(input.toLowerCase().equals("exit")){
                 return null;
@@ -101,16 +104,20 @@ public class Controller {
     private void manageStationNotValid(String input){
 
         System.out.println("That doesn't seem to be a station name we recognise.");
-        Set<String> nodes = new HashSet<>();
-        graph.getNodes().stream().filter(n -> n.getName().startsWith(input)).forEach(n -> nodes.add(n.getName()));
+        Set<String> nodes = getStationNamesWithPrefix(input);
 
         if(nodes.size() == 1){
             System.out.println("You might have meant the following: ");
         }else if(nodes.size() > 0){
             System.out.println("You might have meant one of the following: ");
+        }else{
+            System.out.println("No Suggestions available.");
         }
         consoleIO.printCollection(nodes);
         System.out.println("Make sure you have spelt the name correclty and try again.");
+        if(nodes.size() == 0){
+            System.out.println("If in doubt, type the first letter and press enter to see possible suggestions.");
+        }
         System.out.println();
     }
 
@@ -153,5 +160,42 @@ public class Controller {
                 }
             }
         }
+    }
+
+    /**
+     * Effects: Returns a java.util.List containing references to the INode(s) which have the same name as specified by the name
+     * parameter. Will return an empty list if no matching nodes are found.
+     *
+     * @param name (String) The name for which the multigraph will return all matching INodes for.
+     * @return A List containing references to any INodes with names matching the name parameter.
+     */
+    public List<Station> getStationsWithName(String name) {
+        if (name == null) {
+            return (new ArrayList<>());
+        }
+        ArrayList<Station> matchingStations = new ArrayList<>();
+        List<Station> list = (List<Station>) graph.getNodes();
+        for (Station station : list) {
+            if (station.getName().equals(name)) {
+                matchingStations.add(station);
+            }
+        }
+
+        return matchingStations;
+    }
+
+    public Set<String> getStationNamesWithPrefix(String name) {
+        if (name == null) {
+            return (new HashSet<>());
+        }
+        Set<String> matchingStations = new HashSet<>();
+        List<Station> list = (List<Station>) graph.getNodes();
+        for (Station station : list) {
+            if (station.getName().startsWith(name)) {
+                matchingStations.add(station.getName());
+            }
+        }
+
+        return matchingStations;
     }
 }
