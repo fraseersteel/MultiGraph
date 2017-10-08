@@ -14,8 +14,11 @@ public class ConsoleIO {
     }
 
     /**
-     * @requires message != null
-     * @effects prompts the user with the given message and reads in and returns the reply
+     * Requires: message != null
+     * Effects: prompts the user with the given message and reads in and returns the reply
+     *
+     * @param message a string displayed to the user
+     * @return the response from the user
      */
     public String prompt(String message){
 
@@ -25,8 +28,12 @@ public class ConsoleIO {
     }
 
     /**
-     * @requires route != null, startId must be a valid Id for a station on the starting line in route, same for endId but for the last line in route
-     * @effects Prints the stages of route in a readable way if non-empty otherwise displays error message to user
+     * Requires: route != null, startId must be a valid Id for a station on the starting line in route, same for endId but for the last line in route
+     * Effects: Prints the stages of route in a readable way if non-empty otherwise displays error message to user
+     *
+     * @param route list of lines to be printed
+     * @param startId id of the start station
+     * @param endId id of the last station
      */
     public void printRoute(List<Line> route, int startId, int endId){
         if(!route.isEmpty()){
@@ -48,8 +55,10 @@ public class ConsoleIO {
     }
 
     /**
-     * @requires route != null && route isn't empty
-     * @effects prints the list of Lines in a formatted, readable way
+     * Requires: route != null && route isn't empty
+     * Effects: prints the list of Lines in a formatted, readable way
+     *
+     *@param route list of lines to be formatted
      */
     private void formatRouteList(List<Line> route){
         Line currentLine = route.get(0);
@@ -86,8 +95,11 @@ public class ConsoleIO {
     }
 
     /**
-     * @requires previousLine to not be null, count to be positive
-     * @effects prints out the line and number of stops
+     * Requires: previousLine to not be null, count to be positive
+     * Effects: prints out the line and number of stops
+     *
+     * @param previousLine the Line name
+     * @param count the number of stops
      */
     private void printNumberOfStops(String previousLine, int count){
         System.out.print(", Travel on the '" + previousLine + "' line for " + count);
@@ -99,8 +111,11 @@ public class ConsoleIO {
     }
 
     /**
-     * @requires line to be not null and stationId to be a valid id from a station on param line
-     * @effects prints the details of the station with Id stationId
+     * Requires: line to be not null and stationId to be a valid id from a station on param line
+     * Effects: prints the details of the station with Id stationId
+     *
+     * @param line the line on which the station is on
+     * @param stationId the id of the station
      */
     private void printStationDetails(Line line, int stationId){
         if(line.getNode1().getId() == stationId){
@@ -111,7 +126,9 @@ public class ConsoleIO {
     }
 
     /**
-     * @effects prints all elements of a collection
+     * Effects: prints all elements of a collection
+     *
+     * @param collection a collection of elements
      */
     public void printCollection(Collection<?> collection){
         collection.stream().forEach(s -> System.out.println(" - '" + s + "'"));

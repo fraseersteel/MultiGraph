@@ -21,7 +21,7 @@ public class Controller {
     }
 
     /**
-     * @effects prompts the user for station names and validates them, prints out route from one to the other if
+     * Effects: prompts the user for station names and validates them, prints out route from one to the other if
      */
     public void run(){
         System.out.println("Type 'exit' at anytime to quit.");
@@ -58,8 +58,11 @@ public class Controller {
     }
 
     /**
-     * @requires message != null
-     * @effects keeps prompting user with message until either input is a valid station name (then the station with that name is returned) or 'exit' is entered (and null is returned)
+     * Requires: message != null
+     * Effects: keeps prompting user with message until either input is a valid station name (then the station with that name is returned) or 'exit' is entered (and null is returned)
+     *
+     * @param message the message prompt that the user will respond to
+     * @return a Station object that is in the graph or null if user enters exit
      */
     private Station validateInputStation(String message){
         String input = "-1";
@@ -98,8 +101,10 @@ public class Controller {
     }
 
     /**
-     * @requires name != null
-     * @effects notifies user input is not valid
+     * Requires: input != null
+     * Effects: notifies user input is not valid
+     *
+     * @param input String which has been shown to be invalid Station name
      */
     private void manageStationNotValid(String input){
 
@@ -122,8 +127,11 @@ public class Controller {
     }
 
     /**
-     * @requires stations.size() > 1
-     * @effects asks user to specify the station they meant, returns int of location in stations or -2 if the user meant none of the options
+     * Requires: stations.size() > 1
+     * Effects: asks user to specify the station they meant, returns int of location in stations or -2 if the user meant none of the options
+     *
+     * @param stations list of stations
+     * @return -1 if exit was entered, -2 if none was entered, an index in the param list
      */
     private int manageDuplicateStations(List<Station> stations){
 
@@ -163,11 +171,11 @@ public class Controller {
     }
 
     /**
-     * Effects: Returns a java.util.List containing references to the INode(s) which have the same name as specified by the name
+     * Effects: Returns a java.util.List containing references to the Station(s) which have the same name as specified by the name
      * parameter. Will return an empty list if no matching nodes are found.
      *
-     * @param name (String) The name for which the multigraph will return all matching INodes for.
-     * @return A List containing references to any INodes with names matching the name parameter.
+     * @param name (String) The name for which will return all Stations with matching names for.
+     * @return A List containing references to any Station with names matching the name parameter.
      */
     public List<Station> getStationsWithName(String name) {
         if (name == null) {
@@ -184,14 +192,21 @@ public class Controller {
         return matchingStations;
     }
 
-    public Set<String> getStationNamesWithPrefix(String name) {
-        if (name == null) {
+    /**
+     * Effects: Returns a java.util.Set containing Strings of names prefix matching the prefix parameter
+     * parameter. Will return an empty set if no matching nodes are found.
+     *
+     * @param prefix (String) The name of a Station
+     * @return A Set containing the names of any Stations with the name prefix matching the prefix parameter.
+     */
+    public Set<String> getStationNamesWithPrefix(String prefix) {
+        if (prefix == null) {
             return (new HashSet<>());
         }
         Set<String> matchingStations = new HashSet<>();
         List<Station> list = (List<Station>) graph.getNodes();
         for (Station station : list) {
-            if (station.getName().startsWith(name)) {
+            if (station.getName().startsWith(prefix)) {
                 matchingStations.add(station.getName());
             }
         }

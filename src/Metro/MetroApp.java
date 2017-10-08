@@ -17,6 +17,7 @@ public class MetroApp {
         }
         try{
             controller = new Controller(metroMapParser.generateGraphFromFile());
+            controller.run();
         }catch (IOException e) {
             e.printStackTrace();
         } catch (BadFileException e){
@@ -24,12 +25,7 @@ public class MetroApp {
         }
     }
 
-    public void run(){
-        controller.run();
-    }
-
     public static void main(String[] args) throws IOException, BadFileException {
         MetroApp metroApp = new MetroApp();
-        metroApp.run();
     }
 }
