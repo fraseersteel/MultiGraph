@@ -63,7 +63,6 @@ public class Station implements INode {
     /**
      * Effects: Sets the name of this node.
      * @param name the name which will be stored for this node. Must not be null
-     * @return the name of this node as a String.
      * @throws IllegalArgumentException if the name provided upon method call is null.
      */
     @Override
