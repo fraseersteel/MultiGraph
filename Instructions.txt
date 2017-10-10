@@ -1,0 +1,3 @@
+- Main method is in MetroApp
+- Boston metro information txt is in resources. Resources folder was marked as resource in intelliJ
+- In intelliJ, run metro app to start program.
