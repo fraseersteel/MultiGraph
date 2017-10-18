@@ -1,0 +1,38 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww25400\viewh13480\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 /**\
+Requires: n!= null\
+Modifies: this\
+effects: returns True if the Edge was successfully added to the Multigraph\'92s collection of edges.\
+	returns false if the Edge failed to be added.\
+*/\
+\
+addNode(n : Node) : Boolean\
+\
+\
+\
+/**\
+Requires: e! = null, nodes in e !=null\
+Modifies: this (where the edges are held)\
+Effects: returns true if the node was successfully added to the multigraph\'92s collection of nodes.\
+	returns false if the Node failed to be added. \
+\
+*/\
+\
+addEdge(e : Edge) : Boolean\
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+/**\
+Requires: start != null, destination != null\
+Effects: returns a collection of edges in sequence from start to destination. Will return an empty list if no such path is found, or if either node is not part of the multigraph. \
+\
+*/\
+\
+findPath(start : Node, destination : Node) : Edge (throws NodeNotInGraphException)}
